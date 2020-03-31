@@ -1,0 +1,28 @@
+name: ling573
+channels:
+    - pytorch
+dependencies:
+    - python=3.6
+    - pytorch=1.1.0
+    - torchvision=0.2.1
+    - numpy=1.15.0
+    - scikit-learn=0.19.1
+    - pandas=0.23.0
+    - bokeh=1.2.0
+    - ipykernel=5.1.1
+    - pytz=2017.3
+    - jsondiff
+    - pip
+    - pip:
+        - allennlp==0.8.4
+        - ipdb
+        - tensorboard
+        - tensorboardX==1.2
+        - sendgrid==5.4.1
+        - pyhocon==0.3.35
+        - nose2
+        - pre-commit==1.15.2
+        - spacy==2.1
+        - ftfy
+        - nltk==3.4.5
+        - transformers==2.3.0
