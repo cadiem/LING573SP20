@@ -1,0 +1,66 @@
+#!/usr/bin/python3
+# -*- coding: utf-8 -*-
+
+import os
+import argparse
+import xml.etree.ElementTree as ET
+from xml.dom import minidom
+import copy
+
+def parse_args():
+    parser = argparse.ArgumentParser()
+    parser.add_argument('out_dir', help='system output directory')
+    parser.add_argument('model_dir', help='human summaries directory')
+    parser.add_argument('rouge_config_file', help='ROUGE configuration file')
+    return parser.parse_args()
+
+def create_elem_template(out_dir, model_dir):
+    template = ET.Element('EVAL')
+    peer_root = ET.Element('PEER-ROOT')
+    peer_root.text = out_dir
+    model_root = ET.Element('MODEL-ROOT')
+    model_root.text = model_dir
+    input_format = ET.Element('INPUT-FORMAT', {'TYPE': 'SPL'})
+    peers = ET.Element('PEERS')
+    models = ET.Element('MODELS')
+    template.append(peer_root)
+    template.append(model_root)
+    template.append(input_format)
+    template.append(peers)
+    template.append(models)
+    return template
+
+def create_xml_tree(out_dir, model_dir):
+    template = create_elem_template(out_dir, model_dir)
+    out_dir_list = os.listdir(out_dir)
+    model_dir_list = os.listdir(model_dir)
+    for sys_sum_name in out_dir_list:
+        eval_elem = copy.deepcopy(template)
+        eval_id = sys_sum_name.rsplit('.', 1)[0]
+        eval_elem.set('ID': eval_id)
+        peers = eval_elem.find('PEERS')
+        peers.text = sys_sum_name
+        models = eval_elem.find('MODELS')
+        model_sums = []
+        for model_sum in model_dir_list:
+            if model_sum.startswith(eval_id):
+                
+
+def create_p_elem():
+    pass
+
+def create_m_elem():
+    pass
+
+def main():
+    args = parse_args()
+    template = create_elem_template(args.out_dir, args.model_dir)
+   
+    tree = ET.ElementTree(template)
+    # tree.write('o.xml', short_empty_elements=False)
+    xmlstr = minidom.parseString(ET.tostring(template)).toprettyxml()
+    print(xmlstr)
+
+if __name__ == '__main__':
+    main()
+
