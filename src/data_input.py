@@ -39,6 +39,9 @@ def build_path(doc_id):
 
         tag, year, group_id, doc_id = match.groups()
         original_tag = tag
+        if tag == 'XIE':
+            # No clue why the directory name is different than the file name
+            tag = 'XIN'
         if tag != 'NYT':
             # Only the NYT doesn't have this suffix
             tag += '_ENG'
@@ -51,14 +54,31 @@ def build_path(doc_id):
 
 
 class Document:
-    def __init__(self, body):
+    def __init__(self, id, body):
+        self.id = id
+        self.body = body
         self.headline, self.text = self.clean_body(body)
 
     def clean_body(self, body):
         '''
         Clean all tags out of the body element, leaving just the text
         '''
-        return None, None
+
+        headline = body.find('HEADLINE') or ''
+        if headline != '':
+            headline = headline.text.strip()
+
+        text_el = body.find('TEXT')
+        text = text_el.text.strip()
+        if text == '':
+            # Go through P tags
+            for p in text_el.findall('P'):
+                text += p.text.strip() + '\n'
+
+        if text == '':
+            # still didn't find any text? log it
+            print('No text found for document {id}'.format(id=self.id))
+        return headline, text
 
 
 class Topic:
@@ -94,7 +114,7 @@ class Topic:
             found_doc_id = child.find('DOCNO').text.strip()
             if doc_id == found_doc_id:
                 # Add this document
-                self.documents.append(Document(child.find('BODY')))
+                self.documents.append(Document(doc_id, child.find('BODY')))
 
 
 def get_topics(path_to_topic):
@@ -107,7 +127,7 @@ def get_topics(path_to_topic):
     topics = []
     for child in root.findall('topic'):
         topic_id = child.attrib['id']
-        title = child.find('title')
+        title = child.find('title').text.strip()
         docset_a = child.find('docsetA')
 
         topic = Topic(topic_id, title)
