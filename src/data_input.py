@@ -194,8 +194,6 @@ def get_topics(path_to_topic):
         topics.append(topic)
         print('Topic took {t:.02f} seconds'.format(t=(time() - start_time)))
 
-        import ipdb; ipdb.set_trace()
-
     return topics
 
 
