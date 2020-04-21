@@ -14,6 +14,21 @@ def parse_args():
     parser.add_argument('rouge_config_file', help='ROUGE configuration file')
     return parser.parse_args()
 
+###### Template is of this format ######
+# <EVAL ID="D1001-A.M.100.A">
+# <PEER-ROOT>/dropbox/18-19/573/Data/mydata</PEER-ROOT>
+# <MODEL-ROOT>/dropbox/18-19/573/Data/models/devtest/</MODEL-ROOT>
+# <INPUT-FORMAT TYPE="SPL"/>
+# <PEERS>
+# <P ID="1">D1001-A.M.100.A.1</P>
+# </PEERS>
+# <MODELS>
+# <M ID="A">D1001-A.M.100.A.A</M>
+# <M ID="B">D1001-A.M.100.A.B</M>
+# <M ID="F">D1001-A.M.100.A.F</M>
+# <M ID="H">D1001-A.M.100.A.H</M>
+# </MODELS>
+# </EVAL>
 def create_elem_template(out_dir, model_dir):
     template = ET.Element('EVAL')
     peer_root = ET.Element('PEER-ROOT')
@@ -61,11 +76,10 @@ def create_xml_tree(out_dir, model_dir):
 def main():
     args = parse_args()
     root = create_xml_tree(args.out_dir, args.model_dir)
-    # tree = ET.ElementTree(template)
-    # tree.write('o.xml', short_empty_elements=False)
     xmlstr = minidom.parseString(ET.tostring(root)).toprettyxml()
     with open(args.rouge_config_file, 'w') as f:
         f.write(xmlstr[23:])
+        f.write('\n')
 
 if __name__ == '__main__':
     main()
