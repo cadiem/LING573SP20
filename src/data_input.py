@@ -3,6 +3,7 @@
 
 import os
 import re
+from datetime import datetime
 from time import time
 import xml.etree.ElementTree as ET
 
@@ -17,22 +18,25 @@ DATA_ROOT = './patas/573/Data'
 # strings to remove from xml before parsing
 CLEAN_RE = re.compile(r'\&.+;')
 
+# what we count as a sentence split (could be replaced with e.g. nltk)
+PUNC_SPLIT_RE = re.compile(r'\.')
+
 # examples:
 # <doc id = "NYT19980903.0137" />
 # /corpora/LDC/LDC02T31/nyt/1998/19980903_NYT
 PATH_MAPPING = {
     'AQUAINT': {
         # Do some regex matching to build a path
-        # (tag)(year)(group id).(doc id)
-        'regex': re.compile(r'^([A-Z]{3})([0-9]{4})([0-9]{4})\.([0-9]{4})$'),
-        'path': '{tag_lower}/{year}/{year}{group_id}_{tag}',
+        # (tag)(year)(month)(day).(doc id)
+        'regex': re.compile(r'^([A-Z]{3})([0-9]{4})([0-9]{2})([0-9]{2})\.([0-9]{4})$'),
+        'path': '{tag_lower}/{year}/{year}{month}{day}_{tag}',
         'root': './patas/AQUAINT'
     },
     'AQUAINT-2': {
         # Do some regex matching to build a path
-        # (tag)(year)(group id).(doc id)
-        'regex': re.compile(r'^([A-Z]{3})_ENG_([0-9]{4})([0-9]{4})\.([0-9]{4})$'),
-        'path': '{tag}_eng/{tag}_eng_{year}{group_first_two}.xml',
+        # (tag)(year)(month)(day).(doc id)
+        'regex': re.compile(r'^([A-Z]{3})_ENG_([0-9]{4})([0-9]{2})([0-9]{2})\.([0-9]{4})$'),
+        'path': '{tag}_eng/{tag}_eng_{year}{month}.xml',
         'root': './patas/AQUAINT-2/data'
     },
 }
@@ -45,7 +49,8 @@ def build_path(doc_id):
         if not match:
             continue
 
-        tag, year, group_id, doc_id = match.groups()
+        tag, year, month, day, doc_id = match.groups()
+        date = datetime(int(year), int(month), int(day))
         if corpus == 'AQUAINT':
             original_tag = tag
             if tag == 'XIE':
@@ -54,24 +59,37 @@ def build_path(doc_id):
             if tag != 'NYT':
                 # Only the NYT doesn't have this suffix
                 tag += '_ENG'
-            path = info['path'].format(tag=tag, tag_lower=original_tag.lower(), year=year, group_id=group_id, doc_id=doc_id)
-            return os.path.join(info['root'], path), corpus
+            path = info['path'].format(tag=tag, tag_lower=original_tag.lower(), year=year, month=month, day=day, doc_id=doc_id)
+            return os.path.join(info['root'], path), date, corpus
         elif corpus == 'AQUAINT-2':
-            path = info['path'].format(tag=tag.lower(), year=year, group_first_two=group_id[0:2])
-            return os.path.join(info['root'], path), corpus
+            path = info['path'].format(tag=tag.lower(), year=year, month=month)
+            return os.path.join(info['root'], path), date, corpus
 
     # If we get here without returning, we didn't figure out the path
     print('Unable to find path for {doc_id}'.format(doc_id=doc_id))
-    return None, None
+    return None, None, None
+
+
+class Sentence:
+    def __init__(self, text, doc):
+        self.document = doc
+        self.text = text.strip()
+
+    def __str__(self):
+        return self.text
+
+    __repr__ = __str__
 
 
 class Document:
-    def __init__(self, id, headline_el, text_el):
+    def __init__(self, id, date, headline_el, text_el):
         self.id = id
         self.headline = ''
+        self.date = date
         if headline_el is not None:
             self.headline = headline_el.text.strip()
         self.text = self.clean_text(text_el)
+        self.sentences = [Sentence(s, self) for s in PUNC_SPLIT_RE.split(self.text)]
 
     def clean_text(self, text_el):
         '''
@@ -82,7 +100,9 @@ class Document:
         if text == '':
             # Go through P tags
             for p in text_el.findall('P'):
-                text += p.text.strip() + '\n'
+                text += p.text.strip() + ' '
+
+        text = text.replace('\n', '')
 
         if text == '':
             # still didn't find any text? log it
@@ -99,7 +119,7 @@ class Topic:
         self.documents = []
 
     def load_doc(self, doc_id):
-        path, corpus = build_path(doc_id)
+        path, date, corpus = build_path(doc_id)
 
         if not path:
             return
@@ -128,7 +148,7 @@ class Topic:
                     text_el = body.find('TEXT')
 
                     # Add this document
-                    self.documents.append(Document(doc_id, headline_el, text_el))
+                    self.documents.append(Document(doc_id, date, headline_el, text_el))
         elif corpus == 'AQUAINT-2':
             contents = CLEAN_RE.sub('', contents)
 
@@ -146,7 +166,7 @@ class Topic:
                     text_el = child.find('TEXT')
 
                     # Add this document
-                    self.documents.append(Document(doc_id, headline_el, text_el))
+                    self.documents.append(Document(doc_id, date, headline_el, text_el))
 
 
 def get_topics(path_to_topic):
@@ -173,6 +193,8 @@ def get_topics(path_to_topic):
 
         topics.append(topic)
         print('Topic took {t:.02f} seconds'.format(t=(time() - start_time)))
+
+        import ipdb; ipdb.set_trace()
 
     return topics
 
