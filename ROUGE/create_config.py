@@ -32,7 +32,7 @@ def create_elem_template(out_dir, model_dir):
 
 def create_xml_tree(out_dir, model_dir):
     template = create_elem_template(out_dir, model_dir)
-    out_dir_list = os.listdir(out_dir)
+    out_dir_list = sorted(os.listdir(out_dir))
     model_dir_dict = {}
     for model_sum_name in os.listdir(model_dir):
         id = model_sum_name.rsplit('.', 1)[0]
@@ -50,7 +50,7 @@ def create_xml_tree(out_dir, model_dir):
         peers = eval_elem.find('PEERS')
         peers.text = sys_sum_name
         models = eval_elem.find('MODELS')
-        for model_sum_name in model_dir_dict[eval_id]:
+        for model_sum_name in sorted(model_dir_dict[eval_id]):
             m_id = model_sum_name.rsplit('.', 1)[1]
             m = ET.Element('M', {'ID': m_id})
             m.text = model_sum_name
@@ -60,14 +60,12 @@ def create_xml_tree(out_dir, model_dir):
 
 def main():
     args = parse_args()
-    template = create_elem_template(args.out_dir, args.model_dir)
-   
-    tree = ET.ElementTree(template)
+    root = create_xml_tree(args.out_dir, args.model_dir)
+    # tree = ET.ElementTree(template)
     # tree.write('o.xml', short_empty_elements=False)
-    xmlstr = minidom.parseString(ET.tostring(template)).toprettyxml()
-    # print(xmlstr)
-    with open('o.xml', 'w') as f:
-        f.write(xmlstr)
+    xmlstr = minidom.parseString(ET.tostring(root)).toprettyxml()
+    with open(args.rouge_config_file, 'w') as f:
+        f.write(xmlstr[23:])
 
 if __name__ == '__main__':
     main()
