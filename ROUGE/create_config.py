@@ -33,24 +33,30 @@ def create_elem_template(out_dir, model_dir):
 def create_xml_tree(out_dir, model_dir):
     template = create_elem_template(out_dir, model_dir)
     out_dir_list = os.listdir(out_dir)
-    model_dir_list = os.listdir(model_dir)
+    model_dir_dict = {}
+    for model_sum_name in os.listdir(model_dir):
+        id = model_sum_name.rsplit('.', 1)[0]
+        if id in model_dir_dict:
+            model_dir_dict[id].append(model_sum_name)
+        else:
+            model_dir_dict[id] = [model_sum_name]
+
+    # build tree
+    root = ET.Element('ROUGE_EVAL', {'version': '1.5.5'})
     for sys_sum_name in out_dir_list:
         eval_elem = copy.deepcopy(template)
         eval_id = sys_sum_name.rsplit('.', 1)[0]
-        eval_elem.set('ID': eval_id)
+        eval_elem.set('ID', eval_id)
         peers = eval_elem.find('PEERS')
         peers.text = sys_sum_name
         models = eval_elem.find('MODELS')
-        model_sums = []
-        for model_sum in model_dir_list:
-            if model_sum.startswith(eval_id):
-                
-
-def create_p_elem():
-    pass
-
-def create_m_elem():
-    pass
+        for model_sum_name in model_dir_dict[eval_id]:
+            m_id = model_sum_name.rsplit('.', 1)[1]
+            m = ET.Element('M', {'ID': m_id})
+            m.text = model_sum_name
+            models.append(m)
+        root.append(eval_elem)
+    return root
 
 def main():
     args = parse_args()
@@ -59,8 +65,9 @@ def main():
     tree = ET.ElementTree(template)
     # tree.write('o.xml', short_empty_elements=False)
     xmlstr = minidom.parseString(ET.tostring(template)).toprettyxml()
-    print(xmlstr)
+    # print(xmlstr)
+    with open('o.xml', 'w') as f:
+        f.write(xmlstr)
 
 if __name__ == '__main__':
     main()
-
