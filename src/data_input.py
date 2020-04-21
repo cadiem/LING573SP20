@@ -12,7 +12,6 @@ import xml.etree.ElementTree as ET
 __author__ = 'Daniel Campos, Sicong Huang, Hayley Luke, Simola Nayak, Shunjie Wang  '
 __email__ = 'dacampos@uw.edu'
 
-AQUAINT2_ROOT = './patas/AQUAINT-2'
 DATA_ROOT = './patas/573/Data'
 
 # strings to remove from xml before parsing
