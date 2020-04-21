@@ -60,10 +60,12 @@ def create_xml_tree(out_dir, model_dir):
     root = ET.Element('ROUGE_EVAL', {'version': '1.5.5'})
     for sys_sum_name in out_dir_list:
         eval_elem = copy.deepcopy(template)
-        eval_id = sys_sum_name.rsplit('.', 1)[0]
+        eval_id, p_id = sys_sum_name.rsplit('.', 1)
         eval_elem.set('ID', eval_id)
         peers = eval_elem.find('PEERS')
-        peers.text = sys_sum_name
+        p = ET.Element('P', {'ID': p_id})
+        p.text = sys_sum_name
+        peers.append(p)
         models = eval_elem.find('MODELS')
         for model_sum_name in sorted(model_dir_dict[eval_id]):
             m_id = model_sum_name.rsplit('.', 1)[1]
