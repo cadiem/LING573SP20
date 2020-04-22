@@ -34,15 +34,30 @@ Following content selection we run our information ordering system. \spacemanido
 \subsection{Content Realization}
 \spacemanidol{I suspect for V1 we will just take the information ordering stuff and output}
 \section{Results}
-To evaluate our system performance we ran our system on the 2010 TAC shared evaluation task. 
-The total number of systems this year was 43 including two baselines. The 1st baseline
-(LEAD) was the first 100 words from the most recent document, the 2nd baseline was the
-output of the MEAD summarize (Radev et al., 2003). 23 groups participated.
+To evaluate our system performance we ran our system on the 2010 TAC shared evaluation task. The 2010 TAC task has 43 systems including baselines. The 1st baseline (LEAD) was the first 100 words from the most recent document, the 2nd baseline was the output of the MEAD summarize \cite{Radev2003MEADRM}. We have also included system 43 and system 22 as benchmarks because they had the best performance in the shared task. \\
+Looking at \ref{table:1}, we can see ..
+\begin{table}[h!]
+\begin{tabular}{|l|l|l|} \hline
+\textbf{System Name} & \textbf{ROUGE-2 on Dev} & \textbf{ROUGE-2 on Eval} \\ \hline
+LEAD & 0.05376 & 0.06410 \\ \hline
+MEAD & 0.05927 & 0.08682\\ \hline
+Mockingbird & 0 & 0 \\ \hline
+Mockingbird(Nouns Only) &  0 &  0\\ \hline
+Mockingbird(No Stopwords) & 0 & 0 \\ \hline
+System 43 & 0.01154 & 0.13440 \\ \hline
+System 22 & 0.09574 & 0.11496 \\ \hline
+\end{tabular}
+\ref{table:1}
+\end{table}
 \section{Discussion}
-This is our discussion
+This is our discussion we see stuff
 \section{Conclusion and Future Work}
 We find our model BLAGH
 We want to do Blagh
+Text preprocessing and stemming
+Transformer based tokenization?
+Information ordering improvements
+Content realization
 \bibliography{acl2020}
 \bibliographystyle{acl_natbib}
 \end{document}
