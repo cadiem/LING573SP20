@@ -12,7 +12,8 @@ import xml.etree.ElementTree as ET
 __author__ = 'Daniel Campos, Sicong Huang, Hayley Luke, Simola Nayak, Shunjie Wang  '
 __email__ = 'dacampos@uw.edu'
 
-DATA_ROOT = './patas/573/Data'
+AQUAINT2_ROOT = 'Data/'
+DATA_ROOT = 'Data'
 
 # strings to remove from xml before parsing
 CLEAN_RE = re.compile(r'\&.+;')
@@ -29,14 +30,14 @@ PATH_MAPPING = {
         # (tag)(year)(month)(day).(doc id)
         'regex': re.compile(r'^([A-Z]{3})([0-9]{4})([0-9]{2})([0-9]{2})\.([0-9]{4})$'),
         'path': '{tag_lower}/{year}/{year}{month}{day}_{tag}',
-        'root': './patas/AQUAINT'
+        'root': './patas/AQUAINT' #'Data/LDC02T31' #Change this for patas folders aka /corpora/LDC/LDC02T31/
     },
     'AQUAINT-2': {
         # Do some regex matching to build a path
         # (tag)(year)(month)(day).(doc id)
         'regex': re.compile(r'^([A-Z]{3})_ENG_([0-9]{4})([0-9]{2})([0-9]{2})\.([0-9]{4})$'),
         'path': '{tag}_eng/{tag}_eng_{year}{month}.xml',
-        'root': './patas/AQUAINT-2/data'
+        'root': './patas/AQUAINT-2/data' #'Data/LDC08T25/data' #Change this for patas folders aka /corpora/LDC/LDC08T25/data
     },
 }
 
@@ -68,28 +69,35 @@ def build_path(doc_id):
     print('Unable to find path for {doc_id}'.format(doc_id=doc_id))
     return None, None, None
 
-
 class Sentence:
-    def __init__(self, text, doc):
-        self.document = doc
+    def __init__(self, text, doc_headline, doc_date):
         self.text = text.strip()
+        self.doc_headline = doc_headline
+        self.doc_date = doc_date
+    def set_text_parse(self, parse):
+        self.text_nlp = parse
+    def set_headline_parse(self, headline):
+        self.headline_nlp = headline
 
     def __str__(self):
         return self.text
 
     __repr__ = __str__
 
-
 class Document:
     def __init__(self, id, date, headline_el, text_el):
         self.id = id
         self.headline = ''
-        self.date = date
+        self.doc_date = date
         if headline_el is not None:
             self.headline = headline_el.text.strip()
         self.text = self.clean_text(text_el)
-        self.sentences = [Sentence(s, self) for s in PUNC_SPLIT_RE.split(self.text)]
-
+        self.sentences = self.get_sentences(self.headline, self.text, self.doc_date)
+    def get_sentences(self, headline, text, doc_date):
+        sentences = []
+        for sentence in PUNC_SPLIT_RE.split(self.text):
+            sentences.append(Sentence(sentence.replace('\n',''), headline, doc_date))
+        return sentences
     def clean_text(self, text_el):
         '''
         Clean all tags out of the body element, leaving just the text
@@ -107,7 +115,6 @@ class Document:
             # still didn't find any text? log it
             print('No text found for document {id}'.format(id=self.id))
         return text
-
 
 class Topic:
     def __init__(self, id, title):
@@ -168,7 +175,7 @@ class Topic:
                     self.documents.append(Document(doc_id, date, headline_el, text_el))
 
 
-def get_topics(path_to_topic):
+def get_topics(path_to_topic, args):
     '''
     Given a path to a topics xml, returns a list of Topic objects
     '''
@@ -198,6 +205,6 @@ def get_topics(path_to_topic):
 
 if __name__ == '__main__':
     start_time = time()
-    topics = get_topics('Documents/devtest/GuidedSumm10_test_topics.xml')
+    topics = get_topics('Documents/devtest/GuidedSumm10_test_topics.xml', None)
     print('Full thing took {t:.02f} seconds'.format(t=(time() - start_time)))
-    import ipdb; ipdb.set_trace()
+    #import ipdb; ipdb.set_trace()
