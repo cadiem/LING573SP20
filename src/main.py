@@ -8,7 +8,7 @@ __email__ = 'dacampos@uw.edu'
 
 from data_input import get_topics
 from content_selection import select_content 
-from info_ordering import * 
+from information_ordering import * 
 #from content_realization import *
 #from evaluation import *
 
