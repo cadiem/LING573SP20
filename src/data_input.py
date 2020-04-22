@@ -30,14 +30,14 @@ PATH_MAPPING = {
         # (tag)(year)(month)(day).(doc id)
         'regex': re.compile(r'^([A-Z]{3})([0-9]{4})([0-9]{2})([0-9]{2})\.([0-9]{4})$'),
         'path': '{tag_lower}/{year}/{year}{month}{day}_{tag}',
-        'root': 'Data/LDC02T31' #Change this for patas folders aka /corpora/LDC/LDC02T31/
+        'root': './patas/AQUAINT' #'Data/LDC02T31' #Change this for patas folders aka /corpora/LDC/LDC02T31/
     },
     'AQUAINT-2': {
         # Do some regex matching to build a path
         # (tag)(year)(month)(day).(doc id)
         'regex': re.compile(r'^([A-Z]{3})_ENG_([0-9]{4})([0-9]{2})([0-9]{2})\.([0-9]{4})$'),
         'path': '{tag}_eng/{tag}_eng_{year}{month}.xml',
-        'root': 'Data/LDC08T25/data' #Change this for patas folders aka /corpora/LDC/LDC08T25/data
+        'root': './patas/AQUAINT-2/data' #'Data/LDC08T25/data' #Change this for patas folders aka /corpora/LDC/LDC08T25/data
     },
 }
 
@@ -200,13 +200,11 @@ def get_topics(path_to_topic, args):
         topics.append(topic)
         print('Topic took {t:.02f} seconds'.format(t=(time() - start_time)))
 
-        #import ipdb; ipdb.set_trace()
-
     return topics
 
 
 if __name__ == '__main__':
     start_time = time()
-    topics = get_topics('Documents/devtest/GuidedSumm10_test_topics.xml')
+    topics = get_topics('Documents/devtest/GuidedSumm10_test_topics.xml', None)
     print('Full thing took {t:.02f} seconds'.format(t=(time() - start_time)))
     #import ipdb; ipdb.set_trace()
