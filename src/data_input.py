@@ -96,7 +96,7 @@ class Document:
     def get_sentences(self, headline, text, doc_date):
         sentences = []
         for sentence in PUNC_SPLIT_RE.split(self.text):
-            sentences.append(Sentence(sentence.replace('\n',''), headline, doc_date))
+            sentences.append(Sentence(re.sub('\s*\n\s*',' ',sentence), headline, doc_date))
         return sentences
     def clean_text(self, text_el):
         '''
@@ -109,7 +109,7 @@ class Document:
             for p in text_el.findall('P'):
                 text += p.text.strip() + ' '
 
-        text = text.replace('\n', '')
+        text = re.sub('\s*\n\s*',' ',text)
 
         if text == '':
             # still didn't find any text? log it
