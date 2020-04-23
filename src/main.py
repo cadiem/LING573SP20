@@ -10,7 +10,7 @@ from data_input import get_topics
 from content_selection import select_content 
 from information_ordering import order_content
 from content_realization import realize_content
-#from evaluation import *
+from evaluation import eval_summary
 
 from sys import argv
 import argparse
@@ -44,15 +44,14 @@ if __name__ == '__main__':
         topics = get_topics('Documents/devtest/GuidedSumm10_test_topics.xml', args)
         print("selecting content")
         selected_content = select_content(topics, args.word_vectors, args.method, args.dampening, args.threshold, args.epsilon, args.min_words)
+        ordered_content = order_content(selected_content)
         for topic in topics:
             print("Topic ID:{}\nTopic Title:{}\n".format(topic.id, topic.title))
             output = ''
-            for sentence in selected_content[topic.id]:
+            for sentence in ordered_content[topic.id]:
                 output += '{}\n'.format(sentence.text)
             print(output)
         ordered_content = order_content(selected_content)
         realize_content = realize_content(ordered_content)
     if args.do_eval:
-        #create a rouge config eval file
-        #eval_summary(data_dir, config_file, output_path)
-        print("No Eval yet")
+        eval_summary(data_dir, config_file, output_path) #create a rouge config eval file
