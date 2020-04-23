@@ -5,3 +5,8 @@
 
 __author__ = 'Daniel Campos, Sicong Huang, Hayley Luke, Simola Nayak, Shunjie Wang  '
 __email__ = 'dacampos@uw.edu'
+
+def order_content(summaries):
+    for topic_id in summaries:
+        summaries[topic_id] = sorted(summaries[topic_id], key = lambda sentence: sentence.doc_date)
+    return summaries

@@ -12,24 +12,52 @@
 \usepackage{microtype}
 \aclfinalcopy 
 \title{LING 573:Document Summarization Project Report}
-\author{Daniel Campos \And Sicong Huang \And Shunjie Wang \And Simola Nayak \And Hayley Luke}
+\author{Daniel Campos, Sicong Huang, Shunjie Wang, Simola Nayak, \and Hayley Luke \\ University of Washington \\ {\tt\{dacamp, huangs33, shunjiew, simnayak, jhluke\}@uw.edu}}
 \begin{document}
 \maketitle
 \begin{abstract}
-This is our abstract
+We design and implement Mockingbird, a topic-focused multi-document extractive summarization system. Building on the LexRank graph algorithm our system uses sentence similarity and topic-sentence bias to produce candidates. Next, the ranked sentences are  selected to limit redundancy and stay under 100 words. Compare to the LEAD baseline this system *******. Future work will focus on forms of text representation and processing along with more complex selection and sorting can improve system performance
 \end{abstract}
 \section{Introduction}
-This is an intro where we cite Word2Vec \cite{Mikolov2013DistributedRO} and Transformers \cite{Wolf2019HuggingFacesTS}
+Topic oriented document clusters like ACQUAINT \cite{Graff2002TheAC} and ACQUAINT-2 have been used as a starting point to explore various methods for document summarization. More specifically, these corpuses have been used to study extractive multi-document topic summarization. These corpuses have been the focus of study in TAC(Text Analytics Conference) \cite{} summarization shared task. In the formalization of this task give a topic and a set of news wire documents a competitive system should create a high quality summary of the topic using sentences from the documents. Systems are expected to produce summaries up to 100 words and summaries should be coherent and not contain duplication. Once summaries are generated for all the topics being studied, methods are evaluated and compared using the standard ROUGE metric \cite{}.  \\ Our exploratory system, called Mockingbird, is based on the Biased LexRank graph approach \cite{Otterbacher2009BiasedLP}. In this approach, we provide a ranking of all candidate sentences by combining a matrix which represents sentence similarity with a topic and sentence similarity. After a ranking is produced sentences are selected to maximize their lexrank score but minimize duplication of content. Our method relies on word vectors \cite{Mikolov2013DistributedRO} from the spacy library \footnote{https://spacy.io/} to represent sentences and we experiment with the effects of evaluating complete sentences, sentences without stop words, and only the nouns in the sentences. To understand our system performance we compare our systems ROUGE-1 and ROUGE-2 scores when compared to LEAD, and MEAD baselines. Our system across the board performs \spacemanidol{TODO add basic summary of results}. 
 \section{System Overview}
-This describes the system overview
+Mockingbird has been designed as a simple end-to-end pipeline with the goal of producing a structure we can continue to tweak and modify to understand the effect of various changes have on downstream performance. The pipeline broadly has 5 steps: document input and processing, content selection, information ordering, content realization, and evaluation.\\
+\spacemanidol{This is where we add a figure 1 for system architecture}
 \section{Approach}
-This describes our approach
+In this section we will describe the in detail each of the steps our system takes to summarize topics.
+\subsection{Data Input and Processing}
+The document pipeline takes as an input a configuration file which contains \spacemanidol{what happens}. Using this configuration we  \spacemanidol{@Hayley is this a correct approximation of your code?}.\\
+\subsection{Content Selection}
+Next, there is the content selection pipeline. In this step we consume the structured information from the processing pipeline and for each topic we first assemble all sentences in scope of the topic that have at least 5 words. Then for each sentence, and the title we compute a vector representation for each sentence by averaging all the word vectors in a sentence. We implement various methods of text normalization to focus on the true meaning of the sentence. Once sentences are processed we generate a two dimension matrix representing the cosine similarity between all the sentences relevant to the topic. Following this we produce a bias vector which contains the cosine distance between each sentence and the topic. 
+\subsection{Information Ordering}
+Following content selection we run our information ordering system. \spacemanidol{Shunjie describe what you do}.\\
+\subsection{Content Realization}
+\spacemanidol{I suspect for V1 we will just take the information ordering stuff and output}
 \section{Results}
-This describes our report
+To evaluate our system performance we ran our system on the 2010 TAC shared evaluation task. The 2010 TAC task has 43 systems including baselines. The 1st baseline (LEAD) was the first 100 words from the most recent document, the 2nd baseline was the output of the MEAD summarize \cite{Radev2003MEADRM}. We have also included system 43 and system 22 as benchmarks because they had the best performance in the shared task. \\
+Looking at \ref{table:1}, we can see ..
+\begin{table}[h!]
+\begin{tabular}{|l|l|l|} \hline
+\textbf{System Name} & \textbf{ROUGE-2 on Dev} & \textbf{ROUGE-2 on Eval} \\ \hline
+LEAD & 0.05376 & 0.06410 \\ \hline
+MEAD & 0.05927 & 0.08682\\ \hline
+Mockingbird & 0 & 0 \\ \hline
+Mockingbird(Nouns Only) &  0 &  0\\ \hline
+Mockingbird(No Stopwords) & 0 & 0 \\ \hline
+System 43 & 0.01154 & 0.13440 \\ \hline
+System 22 & 0.09574 & 0.11496 \\ \hline
+\end{tabular}
+\ref{table:1}
+\end{table}
 \section{Discussion}
-This is our discussion
-\section{Conclusion}
-This is our conclusion
+This is our discussion we see stuff
+\section{Conclusion and Future Work}
+We find our model BLAGH
+We want to do Blagh
+Text preprocessing and stemming
+Transformer based tokenization?
+Information ordering improvements
+Content realization
 \bibliography{acl2020}
 \bibliographystyle{acl_natbib}
 \end{document}
