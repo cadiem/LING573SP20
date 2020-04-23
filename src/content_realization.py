@@ -2,6 +2,8 @@
 # -*- coding: utf-8 -*-
 
 """Content here is realized"""
-
 __author__ = 'Daniel Campos, Sicong Huang, Hayley Luke, Simola Nayak, Shunjie Wang  '
 __email__ = 'dacampos@uw.edu'
+
+def realize_content(sentences):
+    return sentences
