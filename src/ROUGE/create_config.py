@@ -75,13 +75,16 @@ def create_xml_tree(out_dir, model_dir):
         root.append(eval_elem)
     return root
 
-def main():
-    args = parse_args()
-    root = create_xml_tree(args.out_dir, args.model_dir)
+def create_config_file(out_dir, model_dir, config_file):
+    root = create_xml_tree(out_dir, model_dir)
     xmlstr = minidom.parseString(ET.tostring(root)).toprettyxml()
-    with open(args.rouge_config_file, 'w') as f:
+    with open(config_file, 'w') as f:
         f.write(xmlstr[23:])
         f.write('\n')
+
+def main():
+    args = parse_args()
+    create_config_file(args.out_dir, args.model_dir, args.rouge_config_file)
 
 if __name__ == '__main__':
     main()
