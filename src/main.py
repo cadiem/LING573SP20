@@ -8,9 +8,9 @@ __email__ = 'dacampos@uw.edu'
 
 from data_input import get_topics
 from content_selection import select_content 
-from information_ordering import * 
-#from content_realization import *
-#from evaluation import *
+from information_ordering import order_content
+from content_realization import realize_content
+from evaluation import eval_summary
 
 from sys import argv
 import argparse
@@ -51,8 +51,7 @@ if __name__ == '__main__':
             for sentence in ordered_content[topic.id]:
                 output += '{}\n'.format(sentence.text)
             print(output)
-        #realize_content = realize_content(ordered_content)
+        ordered_content = order_content(selected_content)
+        realize_content = realize_content(ordered_content)
     if args.do_eval:
-        #create a rouge config eval file
-        #eval_summary(data_dir, config_file, output_path)
-        print("No Eval yet")
+        eval_summary(data_dir, config_file, output_path) #create a rouge config eval file
