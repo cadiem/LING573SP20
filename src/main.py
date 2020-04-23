@@ -8,11 +8,11 @@ __email__ = 'dacampos@uw.edu'
 
 from data_input import get_topics
 from content_selection import select_content 
-from information_ordering import * 
-#from content_realization import *
 from evaluation import eval_summary
 from ROUGE.create_config import create_config_file
 from ROUGE import run_rouge
+from information_ordering import order_content
+from content_realization import realize_content
 
 from sys import argv
 import argparse
@@ -55,9 +55,9 @@ if __name__ == '__main__':
             for sentence in ordered_content[topic.id]:
                 output += '{}\n'.format(sentence.text)
             print(output)
-        #realize_content = realize_content(ordered_content)
+        ordered_content = order_content(selected_content)
+        realize_content = realize_content(ordered_content)
     if args.do_eval:
         create_config_file(args.output_dir, args.model_dir, args.rouge_config_file)
         run_rouge.run(args.eval_script, args.rouge_data_dir, args.rouge_config_file, args.results_path)
         print("Evaluation done")
-
