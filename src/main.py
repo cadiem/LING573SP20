@@ -10,7 +10,8 @@ from data_input import get_topics
 from content_selection import select_content 
 from information_ordering import * 
 #from content_realization import *
-#from evaluation import *
+from evaluation import eval_summary
+from ROUGE.create_config import create_config_file
 
 from sys import argv
 import argparse
@@ -24,7 +25,8 @@ if __name__ == '__main__':
     p.add_argument('--do_eval', default = True)
     p.add_argument('--do_summarize', default = True)
     p.add_argument('--output_dir', default ='../outputs')
-    p.add_argument('--results_dir', default = '../results/')
+    p.add_argument('--results_path', default='../results/D2_rouge_scores.out')
+    p.add_argument('--model_dir', default = '/dropbox/19-20/573/Data/models/devtest')
     p.add_argument('--rouge_data_dir', default = 'ROUGE/data')
     p.add_argument('--rouge_config_file', default = 'ROUGE/config.xml')
     p.add_argument('--method', default='Default')
@@ -53,6 +55,6 @@ if __name__ == '__main__':
             print(output)
         #realize_content = realize_content(ordered_content)
     if args.do_eval:
-        #create a rouge config eval file
-        #eval_summary(data_dir, config_file, output_path)
-        print("No Eval yet")
+        create_config_file(args.output_dir, args.model_dir, args.rouge_config_file)
+        eval_summary(args.rouge_data_dir, args.rouge_config_file, args.results_path)
+        print("Evaluation done")
