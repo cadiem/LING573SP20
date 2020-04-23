@@ -12,6 +12,7 @@ from information_ordering import *
 #from content_realization import *
 from evaluation import eval_summary
 from ROUGE.create_config import create_config_file
+from ROUGE import run_rouge
 
 from sys import argv
 import argparse
@@ -27,6 +28,7 @@ if __name__ == '__main__':
     p.add_argument('--output_dir', default ='../outputs')
     p.add_argument('--results_path', default='../results/D2_rouge_scores.out')
     p.add_argument('--model_dir', default = '/dropbox/19-20/573/Data/models/devtest')
+    p.add_argument('--eval_script', default = '/dropbox/19-20/573/code/ROUGE/ROUGE-1.5.5.pl')
     p.add_argument('--rouge_data_dir', default = 'ROUGE/data')
     p.add_argument('--rouge_config_file', default = 'ROUGE/config.xml')
     p.add_argument('--method', default='Default')
@@ -56,5 +58,6 @@ if __name__ == '__main__':
         #realize_content = realize_content(ordered_content)
     if args.do_eval:
         create_config_file(args.output_dir, args.model_dir, args.rouge_config_file)
-        eval_summary(args.rouge_data_dir, args.rouge_config_file, args.results_path)
+        run_rouge.run(args.eval_script, args.rouge_data_dir, args.rouge_config_file, args.results_path)
         print("Evaluation done")
+
