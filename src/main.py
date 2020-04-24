@@ -28,7 +28,7 @@ if __name__ == '__main__':
     p.add_argument('--output_dir', default ='../outputs')
     p.add_argument('--results_path', default='../results/D2_rouge_scores.out')
     p.add_argument('--model_dir', default = '/dropbox/19-20/573/Data/models/devtest')
-    p.add_argument('--eval_script', default = '/dropbox/19-20/573/code/ROUGE/ROUGE-1.5.5.pl')
+    p.add_argument('--eval_script', default = 'ROUGE/ROUGE-1.5.5.pl')
     p.add_argument('--rouge_data_dir', default = 'ROUGE/data')
     p.add_argument('--rouge_config_file', default = 'ROUGE/config.xml')
     p.add_argument('--method', default='Default')
