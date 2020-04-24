@@ -180,5 +180,32 @@ def select_content(topics, word_vectors, method, dampening, threshold, epsilon, 
         matrix = build_matrix(similarity_matrix, topic_bias, dampening)
         lex_rank_scores = get_lex_rank(sentences, matrix.T, epsilon) # we trampose matrix for easy math
         sentence_ids_sorted_by_lex_rank = get_lex_rank_sorted_sentences(lex_rank_scores)
+        print(sentence_ids_sorted_by_lex_rank)
+        print(sentences)
+        exit(0)
+        """ targets
+        On 20 April 1999, a massacre occurred at Columbine High School in Littleton, Colorado, a suburb of Denver.
+Twelve students, one teacher, and the two perpetrators, Eric Harris and Dylan Klebold, who planned the massacre over a two year period, were killed.
+The perpetrators, who died from self inflicted wounds, were considered disaffected outcasts, frequently abused by school athletes.
+Because of the uneasiness of students, their classes were moved to the neighboring school Chatfield.
+Vice President Gore addressed 70,000 attendees at a Memorial Service and Republican presidential candidate Pat Buchanan cited the incident as rationale for stricter gun laws.
+
+In the worst school killing in U.S. history, two students at Columbine High School in Littleton, Colorado, a Denver suburb, entered their school on Tuesday, April 20, 1999, to shoot and bomb.
+At the end 15 were dead and dozens injured.
+The dead included the two students, Eric Harris and Dylan Klebold, who killed themselves.
+Harris and Klebold were enraged by what they considered taunts and insults from classmates and had planned the massacre for more than a year.
+The school is a sealed crime scene and Columbine students will complete the school year at a nearby high school.
+
+
+In Littleton, Colorado on Tuesday morning, April 20, 1999, Columbine High School students Eric Harris and Dylan Klebold, wearing black trench coats, entered their school with guns and pipe bombs.
+They killed 12 students and teacher Dave Sanders before killing themselves.
+They planned the massacre for a year, enraged by classmates' taunts and insults.
+Many victims were in the cafeteria.
+Investigators believed the gunmen had help from others.
+Columbine remained closed and students were to finish the school year at nearby Chatfield High.
+Copycat threats occurred nationwide.
+The world grieved with Columbine.
+VP Al Gore spoke at the memorial.
+
         summaries[topic.id] = select_sentences(sentences , sentence_ids_sorted_by_lex_rank, method)
     return summaries    
