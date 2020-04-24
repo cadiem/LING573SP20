@@ -8,9 +8,11 @@ __email__ = 'dacampos@uw.edu'
 
 from data_input import get_topics
 from content_selection import select_content 
+from evaluation import eval_summary
+from ROUGE.create_config import create_config_file
+from ROUGE import run_rouge
 from information_ordering import order_content
 from content_realization import realize_content
-from evaluation import eval_summary
 
 from sys import argv
 import argparse
@@ -24,7 +26,9 @@ if __name__ == '__main__':
     p.add_argument('--do_eval', default = True)
     p.add_argument('--do_summarize', default = True)
     p.add_argument('--output_dir', default ='../outputs')
-    p.add_argument('--results_dir', default = '../results/')
+    p.add_argument('--results_path', default='../results/D2_rouge_scores.out')
+    p.add_argument('--model_dir', default = '/dropbox/19-20/573/Data/models/devtest')
+    p.add_argument('--eval_script', default = '/dropbox/19-20/573/code/ROUGE/ROUGE-1.5.5.pl')
     p.add_argument('--rouge_data_dir', default = 'ROUGE/data')
     p.add_argument('--rouge_config_file', default = 'ROUGE/config.xml')
     p.add_argument('--method', default='Default')
@@ -45,7 +49,15 @@ if __name__ == '__main__':
         print("selecting content")
         selected_content = select_content(topics, args.word_vectors, args.method, args.dampening, args.threshold, args.epsilon, args.min_words)
         ordered_content = order_content(selected_content)
+        for topic in topics:
+            print("Topic ID:{}\nTopic Title:{}\n".format(topic.id, topic.title))
+            output = ''
+            for sentence in ordered_content[topic.id]:
+                output += '{}\n'.format(sentence.text)
+            print(output)
+        ordered_content = order_content(selected_content)
         realize_content = realize_content(ordered_content)
     if args.do_eval:
-        #create a rouge config eval file
-        eval_summary(data_dir, config_file, output_path)
+        create_config_file(args.output_dir, args.model_dir, args.rouge_config_file)
+        run_rouge.run(args.eval_script, args.rouge_data_dir, args.rouge_config_file, args.results_path)
+        print("Evaluation done")
