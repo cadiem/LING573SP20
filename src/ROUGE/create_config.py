@@ -54,30 +54,26 @@ def create_xml_tree(out_dir, model_dir):
     out_dir_list = sorted(os.listdir(out_dir))
     model_dir_dict = {}
     for model_sum_name in os.listdir(model_dir):
-        id = model_sum_name
-        if id in model_dir_dict:
-            model_dir_dict[id].append(model_sum_name)
-        else:
-            model_dir_dict[id] = [model_sum_name]
+        eval_id, p_id = model_sum_name.rsplit('.', 1)
+        if eval_id not in model_dir_dict:
+            model_dir_dict[eval_id] = [] 
+        model_dir_dict[eval_id].append(model_sum_name)
 
     # build tree
     root = ET.Element('ROUGE_EVAL', {'version': '1.5.5'})
     for sys_sum_name in out_dir_list:
         eval_elem = copy.deepcopy(template)
         eval_id, p_id = sys_sum_name.rsplit('.', 1)
-        print(eval_id)
         eval_elem.set('ID', eval_id)
         peers = eval_elem.find('PEERS')
         p = ET.Element('P', {'ID': p_id})
         p.text = sys_sum_name
         peers.append(p)
-        models = eval_elem.find('MODELS')
-        print(model_dir_dict)
-        for model_sum_name in sorted(model_dir_dict[eval_id]):
-            m_id = model_sum_name.rsplit('.', 1)[1]
-            m = ET.Element('M', {'ID': m_id})
-            m.text = model_sum_name
-            models.append(m)
+        if eval_id in model_dir_dict:
+            for model_sum_name in sorted(model_dir_dict[eval_id]):
+                m_id = model_sum_name.rsplit('.', 1)[1]
+                m = ET.Element('M', {'ID': m_id})
+                m.text = model_sum_name
         root.append(eval_elem)
     return root
 

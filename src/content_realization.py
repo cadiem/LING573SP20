@@ -13,6 +13,7 @@ import os
 
 def realize_content(topics, summaries, output_dir, run_id):
     for topic in topics:
+        print(topic.id)
         filename = '{}-A.M.100.A.{}'.format(topic.id, run_id)
         with open(os.path.join(output_dir, filename), 'w') as w:
             for sentence in summaries[topic.id]:

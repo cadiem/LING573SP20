@@ -182,7 +182,7 @@ def get_topics(corpus_dir, corpus_config, args):
     topics = []
     for child in root.findall('topic'):
         start_time = time()
-        topic_id = child.attrib['id']
+        topic_id = child.attrib['id'][:-1] #drop a in 
         title = child.find('title').text.strip()
         docset_a = child.find('docsetA')
 
