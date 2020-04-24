@@ -1,6 +1,10 @@
 #!/usr/bin/python3
 # -*- coding: utf-8 -*-
 
+"""Create config file to run evaluation"""
+
+__author__ = 'Daniel Campos, Sicong Huang, Hayley Luke, Simola Nayak, Shunjie Wang  '
+__email__ = 'dacampos@uw.edu,  huangs33@uw.edu, shunjiew@uw.edu, simnayak@uw.edu, jhluke@uw.edu'
 import os
 import argparse
 import xml.etree.ElementTree as ET
@@ -50,7 +54,7 @@ def create_xml_tree(out_dir, model_dir):
     out_dir_list = sorted(os.listdir(out_dir))
     model_dir_dict = {}
     for model_sum_name in os.listdir(model_dir):
-        id = model_sum_name.rsplit('.', 1)[0]
+        id = model_sum_name
         if id in model_dir_dict:
             model_dir_dict[id].append(model_sum_name)
         else:
@@ -61,12 +65,14 @@ def create_xml_tree(out_dir, model_dir):
     for sys_sum_name in out_dir_list:
         eval_elem = copy.deepcopy(template)
         eval_id, p_id = sys_sum_name.rsplit('.', 1)
+        print(eval_id)
         eval_elem.set('ID', eval_id)
         peers = eval_elem.find('PEERS')
         p = ET.Element('P', {'ID': p_id})
         p.text = sys_sum_name
         peers.append(p)
         models = eval_elem.find('MODELS')
+        print(model_dir_dict)
         for model_sum_name in sorted(model_dir_dict[eval_id]):
             m_id = model_sum_name.rsplit('.', 1)[1]
             m = ET.Element('M', {'ID': m_id})
