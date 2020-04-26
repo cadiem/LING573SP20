@@ -27,14 +27,14 @@ PATH_MAPPING = {
         # (tag)(year)(month)(day).(doc id)
         'regex': re.compile(r'^([A-Z]{3})([0-9]{4})([0-9]{2})([0-9]{2})\.([0-9]{4})$'),
         'path': '{tag_lower}/{year}/{year}{month}{day}_{tag}',
-        'root': 'Data/LDC02T31'#'./patas/AQUAINT' #'Data/LDC02T31' #Change this for patas folders aka /corpora/LDC/LDC02T31/
+        'root': '/corpora/LDC/LDC02T31/'
     },
     'AQUAINT-2': {
         # Do some regex matching to build a path
         # (tag)(year)(month)(day).(doc id)
         'regex': re.compile(r'^([A-Z]{3})_ENG_([0-9]{4})([0-9]{2})([0-9]{2})\.([0-9]{4})$'),
         'path': '{tag}_eng/{tag}_eng_{year}{month}.xml',
-        'root': 'Data/LDC08T25/data' #'./patas/AQUAINT-2/data' #'Data/LDC08T25/data' #Change this for patas folders aka /corpora/LDC/LDC08T25/data
+        'root': '/corpora/LDC/LDC08T25/data' #'./patas/AQUAINT-2/data' #'Data/LDC08T25/data' #Change this for patas folders aka /corpora/LDC/LDC08T25/data
     },
 }
 
