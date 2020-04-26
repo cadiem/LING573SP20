@@ -196,7 +196,6 @@ def get_topics(corpus_dir, corpus_config, args):
 
         topics.append(topic)
         print('Topic took {t:.02f} seconds'.format(t=(time() - start_time)))
-
     return topics
 
 
