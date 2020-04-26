@@ -35,7 +35,7 @@ if __name__ == '__main__':
     p.add_argument('--method', default='Default', help ='Options include:Noun,Default,NoStop')
     p.add_argument('--dampening', type=float, default=0.8)
     p.add_argument('--threshold', type=float, default=0.3)
-    p.add_argument('--epsilon', type=float, default=0.1)
+    p.add_argument('--epsilon', type=float, default=0.3)
     p.add_argument('--min_words', type=int, default=4)
     p.add_argument('--word_vectors', default='en_core_web_lg')
     p.add_argument('--run_id', default='A')

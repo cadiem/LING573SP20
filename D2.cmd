@@ -1,5 +1,5 @@
 universe=vanilla
-executable = sh
+executable = /bin/bash
 getenv = true
 output = stdout
 error = stderr

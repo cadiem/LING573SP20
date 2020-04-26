@@ -9,6 +9,7 @@ stderr
 stdout
 
 # Other files and folders
+.vscode/
 .settings/
 data/*
 */__pycache__/*
