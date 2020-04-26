@@ -3,6 +3,10 @@ bin-debug/
 bin-release/
 [Oo]bj/
 [Bb]in/
+573-venv
+log
+stderr
+stdout
 
 # Other files and folders
 .settings/
