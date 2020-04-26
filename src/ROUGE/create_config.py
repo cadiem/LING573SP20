@@ -66,6 +66,7 @@ def create_xml_tree(out_dir, model_dir):
         eval_id, p_id = sys_sum_name.rsplit('.', 1)
         eval_elem.set('ID', eval_id)
         peers = eval_elem.find('PEERS')
+        models = eval_elem.find('MODELS')
         p = ET.Element('P', {'ID': p_id})
         p.text = sys_sum_name
         peers.append(p)
@@ -74,6 +75,7 @@ def create_xml_tree(out_dir, model_dir):
                 m_id = model_sum_name.rsplit('.', 1)[1]
                 m = ET.Element('M', {'ID': m_id})
                 m.text = model_sum_name
+                models.append(m)
         root.append(eval_elem)
     return root
 
