@@ -1,6 +1,10 @@
 #!/usr/bin/python3
 # -*- coding: utf-8 -*-
 
+"""Create config file to run evaluation"""
+
+__author__ = 'Daniel Campos, Sicong Huang, Hayley Luke, Simola Nayak, Shunjie Wang  '
+__email__ = 'dacampos@uw.edu,  huangs33@uw.edu, shunjiew@uw.edu, simnayak@uw.edu, jhluke@uw.edu'
 import os
 import argparse
 import xml.etree.ElementTree as ET
@@ -50,12 +54,10 @@ def create_xml_tree(out_dir, model_dir):
     out_dir_list = sorted(os.listdir(out_dir))
     model_dir_dict = {}
     for model_sum_name in os.listdir(model_dir):
-        id = model_sum_name.rsplit('.', 1)[0]
-        if id in model_dir_dict:
-            model_dir_dict[id].append(model_sum_name)
-        else:
-            model_dir_dict[id] = [model_sum_name]
-
+        eval_id, p_id = model_sum_name.rsplit('.', 1)
+        if eval_id not in model_dir_dict:
+            model_dir_dict[eval_id] = [] 
+        model_dir_dict[eval_id].append(model_sum_name)
     # build tree
     root = ET.Element('ROUGE_EVAL', {'version': '1.5.5'})
     for sys_sum_name in out_dir_list:
@@ -63,16 +65,18 @@ def create_xml_tree(out_dir, model_dir):
         eval_id, p_id = sys_sum_name.rsplit('.', 1)
         eval_elem.set('ID', eval_id)
         peers = eval_elem.find('PEERS')
+        models = eval_elem.find('MODELS')
         p = ET.Element('P', {'ID': p_id})
         p.text = sys_sum_name
         peers.append(p)
-        models = eval_elem.find('MODELS')
-        for model_sum_name in sorted(model_dir_dict[eval_id]):
-            m_id = model_sum_name.rsplit('.', 1)[1]
-            m = ET.Element('M', {'ID': m_id})
-            m.text = model_sum_name
-            models.append(m)
-        root.append(eval_elem)
+        if eval_id in model_dir_dict:
+            for model_sum_name in sorted(model_dir_dict[eval_id]):
+                m_id = model_sum_name.rsplit('.', 1)[1]
+                m = ET.Element('M', {'ID': m_id})
+                m.text = model_sum_name
+                models.append(m)
+        if len(models) > 0: #we have gold examples to compare against!
+            root.append(eval_elem)
     return root
 
 def create_config_file(out_dir, model_dir, config_file):

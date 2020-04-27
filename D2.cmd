@@ -1,11 +1,11 @@
 universe=vanilla
-executable = run.sh
+executable = /bin/bash
 getenv = true
 output = stdout
 error = stderr
 log = log
 notification = complete
-arguments = " ROUGE/"
+arguments = "run.sh"
 transfer_executable = false 
 request_memory = 2*1024
 queue

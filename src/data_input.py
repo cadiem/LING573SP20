@@ -10,10 +10,7 @@ import xml.etree.ElementTree as ET
 """Where data is inputted"""
 
 __author__ = 'Daniel Campos, Sicong Huang, Hayley Luke, Simola Nayak, Shunjie Wang  '
-__email__ = 'dacampos@uw.edu'
-
-AQUAINT2_ROOT = 'Data/'
-DATA_ROOT = 'Data'
+__email__ = 'dacampos@uw.edu,  huangs33@uw.edu, shunjiew@uw.edu, simnayak@uw.edu, jhluke@uw.edu'
 
 # strings to remove from xml before parsing
 CLEAN_RE = re.compile(r'\&.+;')
@@ -30,14 +27,14 @@ PATH_MAPPING = {
         # (tag)(year)(month)(day).(doc id)
         'regex': re.compile(r'^([A-Z]{3})([0-9]{4})([0-9]{2})([0-9]{2})\.([0-9]{4})$'),
         'path': '{tag_lower}/{year}/{year}{month}{day}_{tag}',
-        'root': './patas/AQUAINT' #'Data/LDC02T31' #Change this for patas folders aka /corpora/LDC/LDC02T31/
+        'root': '/corpora/LDC/LDC02T31/'
     },
     'AQUAINT-2': {
         # Do some regex matching to build a path
         # (tag)(year)(month)(day).(doc id)
         'regex': re.compile(r'^([A-Z]{3})_ENG_([0-9]{4})([0-9]{2})([0-9]{2})\.([0-9]{4})$'),
         'path': '{tag}_eng/{tag}_eng_{year}{month}.xml',
-        'root': './patas/AQUAINT-2/data' #'Data/LDC08T25/data' #Change this for patas folders aka /corpora/LDC/LDC08T25/data
+        'root': '/corpora/LDC/LDC08T25/data' #'./patas/AQUAINT-2/data' #'Data/LDC08T25/data' #Change this for patas folders aka /corpora/LDC/LDC08T25/data
     },
 }
 
@@ -175,17 +172,17 @@ class Topic:
                     self.documents.append(Document(doc_id, date, headline_el, text_el))
 
 
-def get_topics(path_to_topic, args):
+def get_topics(corpus_dir, corpus_config, args):
     '''
     Given a path to a topics xml, returns a list of Topic objects
     '''
-    topic_tree = ET.parse(os.path.join(DATA_ROOT, path_to_topic))
+    topic_tree = ET.parse(os.path.join(corpus_dir, corpus_config))
     root = topic_tree.getroot()
 
     topics = []
     for child in root.findall('topic'):
         start_time = time()
-        topic_id = child.attrib['id']
+        topic_id = child.attrib['id'][:-1] #drop a in 
         title = child.find('title').text.strip()
         docset_a = child.find('docsetA')
 
@@ -199,7 +196,6 @@ def get_topics(path_to_topic, args):
 
         topics.append(topic)
         print('Topic took {t:.02f} seconds'.format(t=(time() - start_time)))
-
     return topics
 
 

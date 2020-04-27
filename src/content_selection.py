@@ -4,7 +4,7 @@
 """Where content is selected"""
 
 __author__ = 'Daniel Campos, Sicong Huang, Hayley Luke, Simola Nayak, Shunjie Wang  '
-__email__ = 'dacampos@uw.edu'
+__email__ = 'dacampos@uw.edu,  huangs33@uw.edu, shunjiew@uw.edu, simnayak@uw.edu, jhluke@uw.edu'
 
 import data_input
 
@@ -12,13 +12,12 @@ import math
 import spacy
 import numpy as np
 
-def normalize(text_input, nlp,  method='Default'):  
+def normalize(text_input, nlp,  method='Default'): 
+    parse = nlp(text_input) 
     if method == "Noun":
-        parse = nlp(' '.join([str(t) for t in text_input if t.pos_ in ['NOUN', 'PROPN']]))
+        parse = nlp(' '.join([str(t) for t in parse if t.pos_ in ['NOUN', 'PROPN']]))
     elif method == 'NoStop':
-        parse = nlp(' '.join([str(t) for t in text_input if not t.is_stop]))
-    else:
-        parse = nlp(text_input)
+        parse = nlp(' '.join([str(t) for t in parse if not t.is_stop]))
     return parse
 
 def process_sentences(nlp, sentences, headline, method):
@@ -129,7 +128,7 @@ def is_not_too_similar(candidate_sentence, already_selected_sentences, method):
     similarities = []
     for sentence in already_selected_sentences:
         #print("Sentence 1:{}\nSentence2:{}\nSimilarity:{}".format(candidate_sentence.text, sentence.text,sentence_similarity(candidate_sentence, sentence, method)))
-        if sentence_similarity(candidate_sentence, sentence, method) >= 0.6:
+        if sentence_similarity(candidate_sentence, sentence, method) >= 0.7:
             return False
     return True
 
@@ -162,7 +161,7 @@ def select_sentences(sentences, sentence_ids_sorted_by_lex_rank, method):
                 selected_sentences.append(sentences[i])
     return selected_sentences
 
-def select_content(topics, word_vectors, method, dampening = 0.6, threshold = 0.1, epsilon = 0.15, min_words=5):
+def select_content(topics, word_vectors, method, dampening, threshold, epsilon, min_words):
     """
     Given a bunch of topics method iterates and creates summaries of <= 100 words using full sentences 
     Method uses Biased LExRank Similarity Graph algorithm.
@@ -180,6 +179,6 @@ def select_content(topics, word_vectors, method, dampening = 0.6, threshold = 0.
         topic_bias = build_topic_bias(sentences, method)
         matrix = build_matrix(similarity_matrix, topic_bias, dampening)
         lex_rank_scores = get_lex_rank(sentences, matrix.T, epsilon) # we trampose matrix for easy math
-        sentence_ids_sorted_by_lex_rank = get_lex_rank_sorted_sentences(lex_rank_scores)
+        sentence_ids_sorted_by_lex_rank = get_lex_rank_sorted_sentences(lex_rank_scores)   
         summaries[topic.id] = select_sentences(sentences , sentence_ids_sorted_by_lex_rank, method)
     return summaries    
