@@ -7,6 +7,7 @@
 \usepackage{subfig}
 \renewcommand{\UrlFont}{\ttfamily\small}
 \newcommand{\spacemanidol}[1]{\textcolor{orange}{\bf \small [#1 --dc]}}
+\newcommand{\hayley}[1]{\textcolor{pink}{\bf \small [#1 --h]}}
 \setlength\titlebox{5cm}
 \newcommand\BibTeX{B\textsc{ib}\TeX}
 \usepackage{microtype}
@@ -26,11 +27,11 @@ Mockingbird has been designed as a simple end-to-end pipeline with the goal of p
 \section{Approach}
 In this section we will describe the in detail each of the steps our system takes to summarize topics.
 \subsection{Data Input and Processing}
-The document pipeline takes as an input a configuration file which contains \spacemanidol{what happens}. Using this configuration we  \spacemanidol{@Hayley is this a correct approximation of your code?}.\\
+The document pipeline takes as an input a configuration file which details a series of topics and associates the them with a group of document ID's. Using this configuration file, we compile a list of topics, and use the document ID's to determine the path to the relevant corpus file on disk. We then search the file for the information relevant to our specific document ID, and extract the text, the date, and the title. We clean the data, converting the date to a usable format, and stripping excess whitespace and symbols in the text. Finally, we naively split the text on specific punctuation marks to retrieve a list of sentences. \\
 \subsection{Content Selection}
 Next, there is the content selection pipeline. In this step we consume the structured information from the processing pipeline and for each topic we first assemble all sentences in scope of the topic that have at least 5 words. Then for each sentence, and the title we compute a vector representation for each sentence by averaging all the word vectors in a sentence. We implement various methods of text normalization to focus on the true meaning of the sentence. Once sentences are processed we generate a two dimension matrix representing the cosine similarity between all the sentences relevant to the topic. Following this we produce a bias vector which contains the cosine distance between each sentence and the topic. 
 \subsection{Information Ordering}
-Following content selection we run our information ordering system. \spacemanidol{Shunjie describe what you do}.\\
+Following content selection we run our information ordering system. We used a basic chronological ordering approach, by sorting our sentence objects by their \texttt{doc\_date} property.\\
 \subsection{Content Realization}
 \spacemanidol{I suspect for V1 we will just take the information ordering stuff and output}
 \section{Results}
