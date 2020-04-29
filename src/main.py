@@ -38,7 +38,7 @@ if __name__ == '__main__':
     p.add_argument('--epsilon', type=float, default=0.3)
     p.add_argument('--min_words', type=int, default=4)
     p.add_argument('--word_vectors', default='en_core_web_lg')
-    p.add_argument('--run_id', default='A')
+    p.add_argument('--run_id', default='1')
     p.add_argument('--is_local', default = False)
     args = p.parse_args()
     if args.is_local:

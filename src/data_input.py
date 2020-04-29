@@ -114,12 +114,16 @@ class Document:
         return text
 
 class Topic:
-    def __init__(self, id, title):
-        self.id = id
+    def __init__(self, ids, title):
+        self.id_1, self.id_2 = ids
         self.title = title
 
         # List of Document classes
         self.documents = []
+
+    @property
+    def id(self):
+        return self.id_1 + self.id_2
 
     def load_doc(self, doc_id):
         path, date, corpus = build_path(doc_id)
@@ -182,13 +186,14 @@ def get_topics(corpus_dir, corpus_config, args):
     topics = []
     for child in root.findall('topic'):
         start_time = time()
-        topic_id = child.attrib['id'][:-1] #drop a in 
+        topic_id_1 = child.attrib['id'][:-1] #drop a in 
+        topic_id_2 = child.attrib['id'][-1] # id part 2
         title = child.find('title').text.strip()
         docset_a = child.find('docsetA')
 
-        print('{topic_id} ({title})'.format(topic_id=topic_id, title=title))
+        print('{topic_id} ({title})'.format(topic_id=child.attrib['id'], title=title))
 
-        topic = Topic(topic_id, title)
+        topic = Topic((topic_id_1, topic_id_2), title)
 
         for doc in docset_a:
             doc_id = doc.attrib['id']
