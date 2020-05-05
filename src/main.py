@@ -7,7 +7,7 @@ __author__ = 'Daniel Campos, Sicong Huang, Hayley Luke, Simola Nayak, Shunjie Wa
 __email__ = 'dacampos@uw.edu,  huangs33@uw.edu, shunjiew@uw.edu, simnayak@uw.edu, jhluke@uw.edu'
 
 from data_input import get_topics
-from content_selection import select_content 
+from content_selection import select_content
 from ROUGE.create_config import create_config_file
 from ROUGE import run_rouge
 from information_ordering import order_content
@@ -40,6 +40,8 @@ if __name__ == '__main__':
     p.add_argument('--word_vectors', default='en_core_web_lg')
     p.add_argument('--run_id', default='1')
     p.add_argument('--is_local', default = False)
+    p.add_argument('--do_load_data', default=False)
+    p.add_argument('--use_checkpoint', default=False)
     args = p.parse_args()
     if args.is_local:
         args.corpus_dir = 'Data/'
@@ -48,9 +50,12 @@ if __name__ == '__main__':
     if args.do_train:
         #train the model add some ML stuff here in later phases
         print("No training yet")
+    if args.do_load_data:
+        print("Loading Data")
+        topics = get_topics(args.corpus_dir, args.corpus_config, args.use_checkpoint)
     if args.do_summarize:
         print("Loading Data")
-        topics = get_topics(args.corpus_dir, args.corpus_config, args)
+        topics = get_topics(args.corpus_dir, args.corpus_config, args.use_checkpoint)
         print("Selecting content")
         selected_content = select_content(topics, args.word_vectors, args.method, args.dampening, args.threshold, args.epsilon, args.min_words)
         print("Ordering content")

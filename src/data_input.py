@@ -5,6 +5,7 @@ import os
 import re
 from datetime import datetime
 from time import time
+import pickle
 import xml.etree.ElementTree as ET
 
 """Where data is inputted"""
@@ -71,10 +72,27 @@ class Sentence:
         self.text = text.strip()
         self.doc_headline = doc_headline
         self.doc_date = doc_date
+
     def set_text_parse(self, parse):
         self.text_nlp = parse
+
     def set_headline_parse(self, headline):
         self.headline_nlp = headline
+
+    def to_dict(self):
+        return {
+            'text': self.text,
+            'doc_headline': self.doc_headline,
+            'doc_date': self.doc_date
+        }
+
+    @classmethod
+    def from_dict(cls, d):
+        return cls(
+            d['text'],
+            d['doc_headline'],
+            d['doc_date']
+        )
 
     def __str__(self):
         return self.text
@@ -82,19 +100,27 @@ class Sentence:
     __repr__ = __str__
 
 class Document:
-    def __init__(self, id, date, headline_el, text_el):
+    def __init__(self, id, date, headline_el, text_el, skip_sentences=False):
         self.id = id
         self.headline = ''
         self.doc_date = date
-        if headline_el is not None:
+        self.headline = headline_el
+        if headline_el is not None and not isinstance(headline_el, str):
             self.headline = headline_el.text.strip()
-        self.text = self.clean_text(text_el)
-        self.sentences = self.get_sentences(self.headline, self.text, self.doc_date)
+
+        self.text = text_el
+        if not isinstance(text_el, str):
+            self.text = self.clean_text(text_el)
+
+        if not skip_sentences:
+            self.sentences = self.get_sentences(self.headline, self.text, self.doc_date)
+
     def get_sentences(self, headline, text, doc_date):
         sentences = []
         for sentence in PUNC_SPLIT_RE.split(self.text):
             sentences.append(Sentence(re.sub('\s*\n\s*',' ',sentence), headline, doc_date))
         return sentences
+
     def clean_text(self, text_el):
         '''
         Clean all tags out of the body element, leaving just the text
@@ -112,6 +138,21 @@ class Document:
             # still didn't find any text? log it
             print('No text found for document {id}'.format(id=self.id))
         return text
+
+    def to_dict(self):
+        return {
+            'id': self.id,
+            'headline': self.headline,
+            'doc_date': self.doc_date,
+            'text': self.text,
+            'sentences': [s.to_dict() for s in self.sentences]
+        }
+
+    @classmethod
+    def from_dict(cls, d):
+        doc = cls(d['id'], d['doc_date'], d['headline'], d['text'], skip_sentences=True)
+        doc.sentences = [Sentence.from_dict(di) for di in d['sentences']]
+        return doc
 
 class Topic:
     def __init__(self, ids, title):
@@ -175,18 +216,42 @@ class Topic:
                     # Add this document
                     self.documents.append(Document(doc_id, date, headline_el, text_el))
 
+    def to_dict(self):
+        return {
+            'id_1': self.id_1,
+            'id_2': self.id_2,
+            'title': self.title,
+            'documents': [d.to_dict() for d in self.documents]
+        }
 
-def get_topics(corpus_dir, corpus_config, args):
+    @classmethod
+    def from_dict(cls, d):
+        topic = cls((d['id_1'], d['id_2']), d['title'])
+        topic.documents = [Document.from_dict(di) for di in d['documents']]
+        return topic
+
+
+def get_topics(corpus_dir, corpus_config, use_checkpoint=False):
     '''
     Given a path to a topics xml, returns a list of Topic objects
     '''
+
+    if use_checkpoint:
+        try:
+            with open(use_checkpoint, 'rb') as f:
+                topics = pickle.load(f)
+                return [Topic.from_dict(d) for d in topics]
+        except FileNotFoundError:
+            # We'll continue loading normally then
+            pass
+
     topic_tree = ET.parse(os.path.join(corpus_dir, corpus_config))
     root = topic_tree.getroot()
 
     topics = []
     for child in root.findall('topic'):
         start_time = time()
-        topic_id_1 = child.attrib['id'][:-1] #drop a in 
+        topic_id_1 = child.attrib['id'][:-1] #drop a in
         topic_id_2 = child.attrib['id'][-1] # id part 2
         title = child.find('title').text.strip()
         docset_a = child.find('docsetA')
@@ -201,11 +266,17 @@ def get_topics(corpus_dir, corpus_config, args):
 
         topics.append(topic)
         print('Topic took {t:.02f} seconds'.format(t=(time() - start_time)))
+
+    if use_checkpoint:
+        cleaned_topics = [t.to_dict() for t in topics]
+        with open(use_checkpoint, 'wb') as f:
+            pickle.dump(cleaned_topics, f)
+
     return topics
 
 
 if __name__ == '__main__':
     start_time = time()
-    topics = get_topics('Documents/devtest/GuidedSumm10_test_topics.xml', None)
+    topics = get_topics('Documents/devtest/GuidedSumm10_test_topics.xml', 'GuidedSumm10_test_topics.xml', use_checkpoint='./save.pickle')
     print('Full thing took {t:.02f} seconds'.format(t=(time() - start_time)))
-    #import ipdb; ipdb.set_trace()
+    # import ipdb; ipdb.set_trace()
