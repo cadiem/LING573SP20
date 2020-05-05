@@ -55,7 +55,7 @@ if __name__ == '__main__':
         topics = get_topics(args.corpus_dir, args.corpus_config, args.use_checkpoint)
     if args.do_summarize:
         print("Loading Data")
-        topics = get_topics(args.corpus_dir, args.corpus_config, args.use_checkpoint, args.save_checkpoint)
+        topics = get_topics(args.corpus_dir, args.corpus_config, args.use_checkpoint)
         print("Selecting content")
         selected_content = select_content(topics, args.word_vectors, args.method, args.dampening, args.threshold, args.epsilon, args.min_words)
         print("Ordering content")
