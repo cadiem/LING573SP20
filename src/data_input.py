@@ -277,10 +277,3 @@ def get_topics(nlp, corpus_dir, corpus_config, use_checkpoint=False):
             pickle.dump(cleaned_topics, f)
 
     return topics
-
-
-if __name__ == '__main__':
-    start_time = time()
-    topics = get_topics('patas/573/Data/Documents/devtest/', 'GuidedSumm10_test_topics.xml', use_checkpoint=False)
-    print('Full thing took {t:.02f} seconds'.format(t=(time() - start_time)))
-    # import ipdb; ipdb.set_trace()
