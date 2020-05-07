@@ -153,8 +153,8 @@ class Document:
         }
 
     @classmethod
-    def from_dict(cls, d):
-        doc = cls(d['id'], d['doc_date'], d['headline'], d['text'], skip_sentences=True)
+    def from_dict(cls, nlp, d):
+        doc = cls(nlp, d['id'], d['doc_date'], d['headline'], d['text'], skip_sentences=True)
         doc.sentences = [Sentence.from_dict(di) for di in d['sentences']]
         return doc
 
@@ -230,9 +230,9 @@ class Topic:
         }
 
     @classmethod
-    def from_dict(cls, d):
-        topic = cls((d['id_1'], d['id_2']), d['title'])
-        topic.documents = [Document.from_dict(di) for di in d['documents']]
+    def from_dict(cls, nlp, d):
+        topic = cls(nlp, (d['id_1'], d['id_2']), d['title'])
+        topic.documents = [Document.from_dict(nlp, di) for di in d['documents']]
         return topic
 
 
@@ -246,7 +246,7 @@ def get_topics(nlp, corpus_dir, corpus_config, use_checkpoint=False):
             with open(use_checkpoint, 'rb') as f:
                 topics = pickle.load(f)
                 print('Using data checkpoint')
-                return [Topic.from_dict(d) for d in topics]
+                return [Topic.from_dict(nlp, d) for d in topics]
         except FileNotFoundError:
             # We'll continue loading normally then
             pass
