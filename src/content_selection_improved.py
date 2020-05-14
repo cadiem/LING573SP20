@@ -65,7 +65,7 @@ def weighted_sentence_vector(sentence_parse, idf_dict):
         idf_scores[i] = idf_dict.get(token.text, 0)
         word_vectors.append(token.vector)
     if np.sum(idf_scores) == 0.0:
-        return np.zeros(len(word_vectors))
+        return np.zeros(len(word_vectors[0]))
     word_vectors = np.vstack(word_vectors)
     return np.average(word_vectors, axis=0, weights=idf_scores) 
 
