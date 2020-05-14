@@ -64,8 +64,10 @@ def weighted_sentence_vector(sentence_parse, idf_dict):
     for i, token in enumerate(sentence_parse):
         idf_scores[i] = idf_dict.get(token.text, 0)
         word_vectors.append(token.vector)
+    if np.sum(idf_scores) == 0.0:
+        return np.zeros(len(word_vectors))
     word_vectors = np.vstack(word_vectors)
-    return np.average(word_vectors, axis=0, weights=idf_scores)
+    return np.average(word_vectors, axis=0, weights=idf_scores) 
 
 def cosine_similarity(a, b):
     return np.dot(a, b) / (np.linalg.norm(a) * np.linalg.norm(b))
