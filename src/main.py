@@ -7,7 +7,7 @@ __author__ = 'Daniel Campos, Sicong Huang, Hayley Luke, Simola Nayak, Shunjie Wa
 __email__ = 'dacampos@uw.edu,  huangs33@uw.edu, shunjiew@uw.edu, simnayak@uw.edu, jhluke@uw.edu'
 
 from data_input import get_topics
-from content_selection import select_content
+from content_selection_improved import select_content
 from ROUGE.create_config import create_config_file
 from ROUGE import run_rouge
 from information_ordering import order_content

@@ -209,8 +209,8 @@ def select_content(topics, word_vectors, method, dampening, threshold, epsilon, 
     """
     print("loading spacy")
     nlp = spacy.load(word_vectors)
-    idf_dict = build_idf_scores(topics, nlp)
     process_sentences(nlp, topics, method)
+    idf_dict = build_idf_scores(topics, nlp)
     summaries = {}
     for topic in topics:
         #Get Sentences, process sentences, build similarity matrix, sentence title bias, build markov Matrix, Calculate lexrank, sort sentences by score
