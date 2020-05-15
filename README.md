@@ -6,16 +6,17 @@ LING 573: Language Processing Systems & Applications aka https://www.compling.uw
 
 
 ## Setup
-To run you need to ensure you have a virtual enviroment that has the needed libraries on patas. To do so either use the one mentioned in run.sh or make your own. To make your own, see below. 
+To run you need to ensure you have a virtual environment that has the needed libraries on patas. To do so either use the one mentioned in run.sh or make your own. To make your own, see below. 
 
 ```
 python3.7 -m venv 573-venv
 . 573-venv/bin/activate
 pip install spacy
+pip install -U sentence-transformers
 python -m spacy download en_core_web_lg
 ```
 ## Usage
-Once you have a correctly configured virtual enviorment go ahead an execute run.sh or D2.cmd if using a condor specific system. 
+Once you have a correctly configured virtual environment go ahead an execute run.sh or D2.cmd if using a condor specific system. 
 
 ### New configurations
 

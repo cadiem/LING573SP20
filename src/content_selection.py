@@ -10,14 +10,21 @@ import data_input
 
 import math
 import spacy
+from scipy import spatial
+from sentence_transformers import SentenceTransformer
 import numpy as np
 
-def normalize(text_input, nlp,  method='Default'):
-    parse = nlp(text_input)
-    if method == "Noun":
-        parse = nlp(' '.join([str(t) for t in parse if t.pos_ in ['NOUN', 'PROPN']]))
-    elif method == 'NoStop':
-        parse = nlp(' '.join([str(t) for t in parse if not t.is_stop]))
+def normalize(text_input, nlp,  method='Default'): 
+    if method == 'Transformer':
+        parse = nlp.encode([text_input])[0]
+    else:
+        parse = nlp(text_input) 
+        if method == "Noun":
+            parse = nlp(' '.join([str(t) for t in parse if t.pos_ in ['NOUN', 'PROPN']]))
+        elif method == 'NoStop':
+            parse = nlp(' '.join([str(t) for t in parse if not t.is_stop]))
+        else:
+            parse = 0
     return parse
 
 def process_sentences(nlp, sentences, headline, method):
@@ -33,8 +40,9 @@ def sentence_title_similarity(sentence, method = 'Default'):
     ARGS: sentence(Sentence Class), method(string)
     Returns: float similarity
     """
-    if method == 'nonWordVec':
-        return 0 #Not yet implemented
+    if method == 'Transformer':
+        result = 1 - spatial.distance.cosine(sentence.text_nlp, sentence.headline_nlp)
+        return result
     else:
         return sentence.text_nlp.similarity(sentence.headline_nlp)
 
@@ -44,8 +52,9 @@ def sentence_similarity(a, b, method = 'Default'):
     ARGS: a(Sentence Class), b(Sentence Class), method(string)
     Returns: float similarity
     """
-    if method == 'nonWordVec':
-        return 0 #Not yet implemented
+    if method == 'Transformer':
+        result = 1 - spatial.distance.cosine(a.text_nlp, b.text_nlp)
+        return result
     else:
         return a.text_nlp.similarity(b.text_nlp)
 
@@ -119,8 +128,9 @@ def get_lex_rank(sentences, matrix, epsilon):
         probabilities = tmp
     return probabilities
 
-def is_not_too_similar(candidate_sentence, already_selected_sentences, method):
-    """
+
+def is_not_too_similar(candidate_sentence, already_selected_sentences, method, similarity_threshold):
+    """ 
     Given a candidate sentence compare to all other already selected sentence and keep only those that aren't within 0.6 of another sentence
     ARGS: candidate_sentence(Sentence), already_selected_sentences(list), method(str)
     Returns: Bool
@@ -128,7 +138,7 @@ def is_not_too_similar(candidate_sentence, already_selected_sentences, method):
     similarities = []
     for sentence in already_selected_sentences:
         #print("Sentence 1:{}\nSentence2:{}\nSimilarity:{}".format(candidate_sentence.text, sentence.text,sentence_similarity(candidate_sentence, sentence, method)))
-        if sentence_similarity(candidate_sentence, sentence, method) >= 0.7:
+        if sentence_similarity(candidate_sentence, sentence, method) >= similarity_threshold:
             return False
     return True
 
@@ -143,8 +153,8 @@ def get_lex_rank_sorted_sentences(lex_rank_scores):
         lex_rank_index_to_score[i] = lex_rank_scores[i]
     return list({k: v for k, v in sorted(lex_rank_index_to_score.items(), key=lambda item: item[1], reverse=True)}.keys())
 
-def select_sentences(sentences, sentence_ids_sorted_by_lex_rank, method):
-    """
+def select_sentences(sentences, sentence_ids_sorted_by_lex_rank, method, similarity_threshold):
+    """ 
     Given a set of sentences and a sorted index via lex rank produce candidate summary by greedily looping over candidates and removing any that make summary > 100 words or are similar to other already selected sentences
     Takes a list of sentences sorted by LexRank value (descending) and selects the sentences to add to the summary greedily based on LexRank value
     while excluding sentences with cosine similarity > 0.6to any sentence already in the summary.
@@ -156,19 +166,29 @@ def select_sentences(sentences, sentence_ids_sorted_by_lex_rank, method):
     for i in sentence_ids_sorted_by_lex_rank:
         cur_sentence_len = len(sentences[i].text.split())
         if cur_sentence_len + current_summary_size < 100:
-            if is_not_too_similar(sentences[i], selected_sentences, method):
+            if is_not_too_similar(sentences[i], selected_sentences, method, similarity_threshold):
                 current_summary_size += cur_sentence_len
                 selected_sentences.append(sentences[i])
     return selected_sentences
 
-def select_content(nlp, topics, method, dampening, threshold, epsilon, min_words):
+
+def select_content(nlp,topics, word_vectors, method, dampening, threshold, epsilon, min_words, similarity_threshold):
     """
     Given a bunch of topics method iterates and creates summaries of <= 100 words using full sentences
     Method uses Biased LExRank Similarity Graph algorithm.
     ARGS: topics, a dampening factor, a inter sentence threshold, an epsilon, min_words
     Returns:
     """
+
+    if method == 'Transformer':
+        print('loading Transformers')
+        nlp = SentenceTransformer('bert-base-nli-stsb-mean-tokens')
+    else:
+        print("loading spacy")
+        nlp = spacy.load(word_vectors)
     summaries = {}
+    idx = 1
+    topics_len = len(topics)
     for topic in topics:
         #Get Sentences, process sentences, build similarity matrix, sentence title bias, build markov Matrix, Calculate lexrank, sort sentences by score
         sentences = get_sentences(topic.documents, min_words)
@@ -177,6 +197,8 @@ def select_content(nlp, topics, method, dampening, threshold, epsilon, min_words
         topic_bias = build_topic_bias(sentences, method)
         matrix = build_matrix(similarity_matrix, topic_bias, dampening)
         lex_rank_scores = get_lex_rank(sentences, matrix.T, epsilon) # we trampose matrix for easy math
-        sentence_ids_sorted_by_lex_rank = get_lex_rank_sorted_sentences(lex_rank_scores)
-        summaries[topic.id] = select_sentences(sentences , sentence_ids_sorted_by_lex_rank, method)
-    return summaries
+        sentence_ids_sorted_by_lex_rank = get_lex_rank_sorted_sentences(lex_rank_scores)   
+        summaries[topic.id] = select_sentences(sentences , sentence_ids_sorted_by_lex_rank, method, similarity_threshold)
+        print("Completed {} of {} total topics".format(idx,topics_len))
+        idx += 1
+    return summaries   
