@@ -16,9 +16,6 @@ __email__ = 'dacampos@uw.edu,  huangs33@uw.edu, shunjiew@uw.edu, simnayak@uw.edu
 # strings to remove from xml before parsing
 CLEAN_RE = re.compile(r'\&.+;')
 
-# what we count as a sentence split (could be replaced with e.g. nltk)
-PUNC_SPLIT_RE = re.compile(r'\.')
-
 # examples:
 # <doc id = "NYT19980903.0137" />
 # /corpora/LDC/LDC02T31/nyt/1998/19980903_NYT
@@ -100,7 +97,7 @@ class Sentence:
     __repr__ = __str__
 
 class Document:
-    def __init__(self, id, date, headline_el, text_el, skip_sentences=False):
+    def __init__(self, nlp, id, date, headline_el, text_el, skip_sentences=False):
         self.id = id
         self.headline = ''
         self.doc_date = date
@@ -113,12 +110,13 @@ class Document:
             self.text = self.clean_text(text_el)
 
         if not skip_sentences:
-            self.sentences = self.get_sentences(self.headline, self.text, self.doc_date)
+            self.sentences = self.get_sentences(nlp, self.headline, self.text, self.doc_date)
 
-    def get_sentences(self, headline, text, doc_date):
+    def get_sentences(self, nlp, headline, text, doc_date):
         sentences = []
-        for sentence in PUNC_SPLIT_RE.split(self.text):
-            sentences.append(Sentence(re.sub('\s*\n\s*',' ',sentence), headline, doc_date))
+        nlp_doc = nlp(text)
+        for sentence in nlp_doc.sents:
+            sentences.append(Sentence(re.sub('\s*\n\s*', ' ', sentence.text), headline, doc_date))
         return sentences
 
     def clean_text(self, text_el):
@@ -132,7 +130,11 @@ class Document:
             for p in text_el.findall('P'):
                 text += p.text.strip() + ' '
 
-        text = re.sub('\s*\n\s*',' ',text)
+        # Clean up repeated spaces and newlines
+        text = re.sub(r'\s*\n\s*', ' ', text)
+
+        # Clean up weird quotation marks
+        text = re.sub(r"(''|``)", '"', text)
 
         if text == '':
             # still didn't find any text? log it
@@ -149,13 +151,14 @@ class Document:
         }
 
     @classmethod
-    def from_dict(cls, d):
-        doc = cls(d['id'], d['doc_date'], d['headline'], d['text'], skip_sentences=True)
+    def from_dict(cls, nlp, d):
+        doc = cls(nlp, d['id'], d['doc_date'], d['headline'], d['text'], skip_sentences=True)
         doc.sentences = [Sentence.from_dict(di) for di in d['sentences']]
         return doc
 
 class Topic:
-    def __init__(self, ids, title):
+    def __init__(self, nlp, ids, title):
+        self.nlp = nlp
         self.id_1, self.id_2 = ids
         self.title = title
 
@@ -196,7 +199,7 @@ class Topic:
                     text_el = body.find('TEXT')
 
                     # Add this document
-                    self.documents.append(Document(doc_id, date, headline_el, text_el))
+                    self.documents.append(Document(self.nlp, doc_id, date, headline_el, text_el))
         elif corpus == 'AQUAINT-2':
             contents = CLEAN_RE.sub('', contents)
 
@@ -214,7 +217,7 @@ class Topic:
                     text_el = child.find('TEXT')
 
                     # Add this document
-                    self.documents.append(Document(doc_id, date, headline_el, text_el))
+                    self.documents.append(Document(self.nlp, doc_id, date, headline_el, text_el))
 
     def to_dict(self):
         return {
@@ -225,13 +228,13 @@ class Topic:
         }
 
     @classmethod
-    def from_dict(cls, d):
-        topic = cls((d['id_1'], d['id_2']), d['title'])
-        topic.documents = [Document.from_dict(di) for di in d['documents']]
+    def from_dict(cls, nlp, d):
+        topic = cls(nlp, (d['id_1'], d['id_2']), d['title'])
+        topic.documents = [Document.from_dict(nlp, di) for di in d['documents']]
         return topic
 
 
-def get_topics(corpus_dir, corpus_config, use_checkpoint=False):
+def get_topics(nlp, corpus_dir, corpus_config, use_checkpoint=False):
     '''
     Given a path to a topics xml, returns a list of Topic objects
     '''
@@ -240,7 +243,8 @@ def get_topics(corpus_dir, corpus_config, use_checkpoint=False):
         try:
             with open(use_checkpoint, 'rb') as f:
                 topics = pickle.load(f)
-                return [Topic.from_dict(d) for d in topics]
+                print('Using data checkpoint')
+                return [Topic.from_dict(nlp, d) for d in topics]
         except FileNotFoundError:
             # We'll continue loading normally then
             pass
@@ -258,7 +262,7 @@ def get_topics(corpus_dir, corpus_config, use_checkpoint=False):
 
         print('{topic_id} ({title})'.format(topic_id=child.attrib['id'], title=title))
 
-        topic = Topic((topic_id_1, topic_id_2), title)
+        topic = Topic(nlp, (topic_id_1, topic_id_2), title)
 
         for doc in docset_a:
             doc_id = doc.attrib['id']
@@ -273,10 +277,3 @@ def get_topics(corpus_dir, corpus_config, use_checkpoint=False):
             pickle.dump(cleaned_topics, f)
 
     return topics
-
-
-if __name__ == '__main__':
-    start_time = time()
-    topics = get_topics('Documents/devtest/GuidedSumm10_test_topics.xml', 'GuidedSumm10_test_topics.xml', use_checkpoint='./save.pickle')
-    print('Full thing took {t:.02f} seconds'.format(t=(time() - start_time)))
-    # import ipdb; ipdb.set_trace()

@@ -14,7 +14,6 @@ from scipy import spatial
 from sentence_transformers import SentenceTransformer
 import numpy as np
 
-
 def normalize(text_input, nlp,  method='Default'): 
     if method == 'Transformer':
         parse = nlp.encode([text_input])[0]
@@ -36,7 +35,7 @@ def process_sentences(nlp, sentences, headline, method):
     return sentences
 
 def sentence_title_similarity(sentence, method = 'Default'):
-    """ 
+    """
     Given a sentence compute its similarity with the topic title. Default method is word vector based
     ARGS: sentence(Sentence Class), method(string)
     Returns: float similarity
@@ -48,7 +47,7 @@ def sentence_title_similarity(sentence, method = 'Default'):
         return sentence.text_nlp.similarity(sentence.headline_nlp)
 
 def sentence_similarity(a, b, method = 'Default'):
-    """ 
+    """
     Given two sentences produces their cosine similarity. Default is vector similarity
     ARGS: a(Sentence Class), b(Sentence Class), method(string)
     Returns: float similarity
@@ -60,7 +59,7 @@ def sentence_similarity(a, b, method = 'Default'):
         return a.text_nlp.similarity(b.text_nlp)
 
 def get_sentences(docs, min_words):
-    """ 
+    """
     Given a set of documents we extract all sentences that pass a minimum word threshold
     ARGS: docs(list of Documents), min_words(int)
     Returns: sentences(list of Sentences)
@@ -73,8 +72,8 @@ def get_sentences(docs, min_words):
     return sentences
 
 def build_topic_bias(sentences, method):
-    """ 
-    Given a list of sentence produce a vector representing the similarity between a topic title(question) and candidate sentences. 
+    """
+    Given a list of sentence produce a vector representing the similarity between a topic title(question) and candidate sentences.
     ARGS: sentences(list), method(string)
     Returns: list of distance of each sentence to title(query)
     """
@@ -88,15 +87,15 @@ def build_topic_bias(sentences, method):
 
 
 def build_matrix(similarity_matrix, topic_bias, dampening):
-    """ 
-    Given a sentence similarity matrix, a topic bias vector and a dampening factor produce a unified matrix representation. 
+    """
+    Given a sentence similarity matrix, a topic bias vector and a dampening factor produce a unified matrix representation.
     ARGS: similarity_matrix(2d matrix), topic_bias(1d vector), dampening(float)
     Returns: unified matrix(1d)
     """
     return (dampening * (topic_bias)) + ((1-dampening) * (similarity_matrix))
 
 def build_similarity_matrix(sentences, threshold, method):
-    """ 
+    """
     Given sentences we Builds and returns a 2D numpy matrix of inter-sentential cosine similarity.
     ARGS: sentences(list), threshold(float), method(str) defining cosine similarity method
     Returns: 2d matrix
@@ -115,8 +114,8 @@ def build_similarity_matrix(sentences, threshold, method):
     return similarities/sums #normalize
 
 def get_lex_rank(sentences, matrix, epsilon):
-    """ 
-    a matrix and an epsilon value representing the lexical rank of sentences for summaries we use the power method to find lexrank values. 
+    """
+    a matrix and an epsilon value representing the lexical rank of sentences for summaries we use the power method to find lexrank values.
     ARGS: matrix(2d) representing lexrank method
     Returns:  probabilities(1d vector)
     """
@@ -128,6 +127,7 @@ def get_lex_rank(sentences, matrix, epsilon):
         diff = np.linalg.norm(np.subtract(tmp,probabilities))
         probabilities = tmp
     return probabilities
+
 
 def is_not_too_similar(candidate_sentence, already_selected_sentences, method, similarity_threshold):
     """ 
@@ -143,7 +143,7 @@ def is_not_too_similar(candidate_sentence, already_selected_sentences, method, s
     return True
 
 def get_lex_rank_sorted_sentences(lex_rank_scores):
-    """ 
+    """
     Given a list of lex rank scores produce an list representing sentence order sorted by lexrank value
     ARGS: lex_rank_scores(list)
     Returns: lex_rank_sorted_keys(list)
@@ -171,13 +171,15 @@ def select_sentences(sentences, sentence_ids_sorted_by_lex_rank, method, similar
                 selected_sentences.append(sentences[i])
     return selected_sentences
 
-def select_content(topics, word_vectors, method, dampening, threshold, epsilon, min_words, similarity_threshold):
+
+def select_content(nlp,topics, word_vectors, method, dampening, threshold, epsilon, min_words, similarity_threshold):
     """
-    Given a bunch of topics method iterates and creates summaries of <= 100 words using full sentences 
+    Given a bunch of topics method iterates and creates summaries of <= 100 words using full sentences
     Method uses Biased LExRank Similarity Graph algorithm.
     ARGS: topics, a dampening factor, a inter sentence threshold, an epsilon, min_words
     Returns:
     """
+
     if method == 'Transformer':
         print('loading Transformers')
         nlp = SentenceTransformer('bert-base-nli-stsb-mean-tokens')
@@ -199,4 +201,4 @@ def select_content(topics, word_vectors, method, dampening, threshold, epsilon, 
         summaries[topic.id] = select_sentences(sentences , sentence_ids_sorted_by_lex_rank, method, similarity_threshold)
         print("Completed {} of {} total topics".format(idx,topics_len))
         idx += 1
-    return summaries    
+    return summaries   

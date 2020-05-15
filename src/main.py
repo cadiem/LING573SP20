@@ -52,13 +52,17 @@ if __name__ == '__main__':
         #train the model add some ML stuff here in later phases
         print("No training yet")
     if args.do_load_data:
+        print("loading spacy")
+        nlp = spacy.load(args.word_vectors)
         print("Loading Data")
-        topics = get_topics(args.corpus_dir, args.corpus_config, args.use_checkpoint)
+        topics = get_topics(nlp, args.corpus_dir, args.corpus_config, args.use_checkpoint)
     if args.do_summarize:
+        print("loading spacy")
+        nlp = spacy.load(args.word_vectors)
         print("Loading Data")
-        topics = get_topics(args.corpus_dir, args.corpus_config, args.use_checkpoint)
+        topics = get_topics(nlp, args.corpus_dir, args.corpus_config, args.use_checkpoint)
         print("Selecting content")
-        selected_content = select_content(topics, args.word_vectors, args.method, args.dampening, args.threshold, args.epsilon, args.min_words, args.intrasentence_similarity)
+        selected_content = select_content(nlp,topics, args.word_vectors, args.method, args.dampening, args.threshold, args.epsilon, args.min_words, args.intrasentence_similarity)
         print("Ordering content")
         ordered_content = order_content(selected_content)
         print("Realizing content")
