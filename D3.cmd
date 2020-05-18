@@ -1,8 +1,11 @@
-universe = vanilla
+universe=vanilla
 executable = /bin/bash
 getenv = true
-output = acc_file
+output = stdout
+error = stderr
 log = log
-arguments = "./run.sh"
-transfer_executable=false
+notification = complete
+arguments = "run.sh"
+transfer_executable = false 
+request_memory = 2*1024
 queue
