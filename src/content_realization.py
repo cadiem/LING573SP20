@@ -7,6 +7,7 @@ __email__ = 'dacampos@uw.edu,  huangs33@uw.edu, shunjiew@uw.edu, simnayak@uw.edu
 
 import sys
 import os
+import re
 
 def combine_sentences(sentence_collection):
     #combine sentences for clarity, etc
@@ -18,6 +19,8 @@ def remove_gratuitous_nodes(sentence):
 
 def pre_clean(sentence_collection):
     #use regexes to remove the bylines, datelines, etc.
+    re.sub("[A-Z],","", sentence_collection)
+    
     return sentence_collection
     
 def realize_content(topics, summaries, output_dir, run_id):
