@@ -14,11 +14,11 @@ from scipy import spatial
 from sentence_transformers import SentenceTransformer
 import numpy as np
 
-def normalize(text_input, nlp,  method='Default'): 
+def normalize(text_input, nlp,  method='Default'):
     if method == 'Transformer':
         parse = nlp.encode([text_input])[0]
     else:
-        parse = nlp(text_input) 
+        parse = nlp(text_input)
         if method == "Noun":
             parse = nlp(' '.join([str(t) for t in parse if t.pos_ in ['NOUN', 'PROPN']]))
         elif method == 'NoStop':
@@ -65,10 +65,7 @@ def get_sentences(docs, min_words):
     Returns: sentences(list of Sentences)
     """
     sentences = []
-    for doc in docs:
-        for sentence in doc.sentences:
-            if len(sentence.text.split(' ')) >= min_words:
-                sentences.append(sentence)
+    [sentences.extend(doc.get_filtered_sentences(min_words)) for doc in docs]
     return sentences
 
 def build_topic_bias(sentences, method):
@@ -130,7 +127,7 @@ def get_lex_rank(sentences, matrix, epsilon):
 
 
 def is_not_too_similar(candidate_sentence, already_selected_sentences, method, similarity_threshold):
-    """ 
+    """
     Given a candidate sentence compare to all other already selected sentence and keep only those that aren't within 0.6 of another sentence
     ARGS: candidate_sentence(Sentence), already_selected_sentences(list), method(str)
     Returns: Bool
@@ -154,7 +151,7 @@ def get_lex_rank_sorted_sentences(lex_rank_scores):
     return list({k: v for k, v in sorted(lex_rank_index_to_score.items(), key=lambda item: item[1], reverse=True)}.keys())
 
 def select_sentences(sentences, sentence_ids_sorted_by_lex_rank, method, similarity_threshold):
-    """ 
+    """
     Given a set of sentences and a sorted index via lex rank produce candidate summary by greedily looping over candidates and removing any that make summary > 100 words or are similar to other already selected sentences
     Takes a list of sentences sorted by LexRank value (descending) and selects the sentences to add to the summary greedily based on LexRank value
     while excluding sentences with cosine similarity > 0.6to any sentence already in the summary.
@@ -197,8 +194,8 @@ def select_content(nlp,topics, word_vectors, method, dampening, threshold, epsil
         topic_bias = build_topic_bias(sentences, method)
         matrix = build_matrix(similarity_matrix, topic_bias, dampening)
         lex_rank_scores = get_lex_rank(sentences, matrix.T, epsilon) # we trampose matrix for easy math
-        sentence_ids_sorted_by_lex_rank = get_lex_rank_sorted_sentences(lex_rank_scores)   
+        sentence_ids_sorted_by_lex_rank = get_lex_rank_sorted_sentences(lex_rank_scores)
         summaries[topic.id] = select_sentences(sentences , sentence_ids_sorted_by_lex_rank, method, similarity_threshold)
         print("Completed {} of {} total topics".format(idx,topics_len))
         idx += 1
-    return summaries   
+    return summaries
