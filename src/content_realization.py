@@ -16,9 +16,6 @@ nlp = spacy.load("en_core_web_lg")
 def processed_sentences(sentence_collection):
     return [nlp(sentence.text) for sentence in sentence_collection]
 
-def sub_appropriate_corefs(sentence_collection):
-    return sentence_collection
-
 def break_large_sentences(sentence_collection, parse_collection, maxlen=7):
     newcollection = []
     for i in range(len(sentence_collection)):
@@ -46,10 +43,6 @@ def break_large_sentences(sentence_collection, parse_collection, maxlen=7):
         else:
             newcollection.append(sentence_collection[i])
     return newcollection
-
-def combine_sentences(sentence_collection, minlen=5):
-    #combine sentences for clarity, etc
-    return sentence_collection
 
 #remove extra nodes of the sentence parse tree- gratuitous modifiers
 #please note, this could cause problems for phrases like "forcibly removed"
