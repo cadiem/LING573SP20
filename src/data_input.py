@@ -261,6 +261,24 @@ class Topic:
 
                     # Add this document
                     self.documents.append(Document(self.nlp, doc_id, date, headline_el, text_el))
+        elif corpus == 'GIGAWORD':
+            contents = CLEAN_RE.sub('', contents)
+            contents = '<root>' + contents + '</root>'
+            try:
+                group_tree = ET.fromstring(contents)
+            except ET.ParseError as e:
+                print('Error parsing {path} for {doc_id}'.format(path=path, doc_id=doc_id))
+                print(e)
+                raise e
+
+            for child in group_tree.findall('DOC'):
+                found_doc_id = child.attrib['id']
+                if doc_id == found_doc_id:
+                    headline_el = child.find('HEADLINE')
+                    text_el = child.find('TEXT')
+
+                    # Add this document
+                    self.documents.append(Document(self.nlp, doc_id, date, headline_el, text_el))
 
     def to_dict(self):
         return {
