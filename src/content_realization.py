@@ -89,6 +89,7 @@ def pre_clean(sentence_collection):
         sentence.text = re.sub(r"\([A-Z]+\, [A-Z][a-z]*\)", "", sentence.text)
         sentence.text = re.sub(r"[A-Z]+[a-z]*, [A-Z][a-z]*","", sentence.text)    
         sentence.text = re.sub(r"[\@\^\*\(\)\{\}\[\]\<\>\/\-\_\+\=\?\!\"]", "", sentence.text)
+        sentence.text = re.sub(r"[A-Za-z]+\ {2,}", "", sentence.text)
         #use regexes to remove the bylines, datelines, etc.
     return sentence_collection
 
