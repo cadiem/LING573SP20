@@ -15,7 +15,7 @@ __author__ = 'Daniel Campos, Sicong Huang, Hayley Luke, Simola Nayak, Shunjie Wa
 __email__ = 'dacampos@uw.edu,  huangs33@uw.edu, shunjiew@uw.edu, simnayak@uw.edu, jhluke@uw.edu'
 
 # strings to remove from xml before parsing
-CLEAN_RE = re.compile(r'\&.+;')
+CLEAN_RE = re.compile(r'\&.+;|>[0-9]|<[0-9]')
 
 # examples:
 # <doc id = "NYT19980903.0137" />
