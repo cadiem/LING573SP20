@@ -21,13 +21,6 @@ CLEAN_RE = re.compile(r'\&.+;|>[0-9]|<[0-9]')
 # <doc id = "NYT19980903.0137" />
 # /corpora/LDC/LDC02T31/nyt/1998/19980903_NYT
 PATH_MAPPING = {
-    'GIGAWORD': {
-        # Do some regex matching to build a path
-        # (tag)(year)(month)(day).(doc id)
-        'regex': re.compile(r'^([A-Z]{3})_ENG_([0-9]{4})([0-9]{2})([0-9]{2})\.([0-9]{4})$'),
-        'path': '{tag}_eng/{tag}_eng_{year}{month}.gz',
-        'root': '/corpora/LDC/LDC11T07/data'
-    },
     'AQUAINT': {
         # Do some regex matching to build a path
         # (tag)(year)(month)(day).(doc id)
@@ -41,6 +34,13 @@ PATH_MAPPING = {
         'regex': re.compile(r'^([A-Z]{3})_ENG_([0-9]{4})([0-9]{2})([0-9]{2})\.([0-9]{4})$'),
         'path': '{tag}_eng/{tag}_eng_{year}{month}.xml',
         'root': '/corpora/LDC/LDC08T25/data'#'/corpora/LDC/LDC08T25/data' #'./patas/AQUAINT-2/data' #'Data/LDC08T25/data' #Change this for patas folders aka /corpora/LDC/LDC08T25/data
+    },
+    'GIGAWORD': {
+        # Do some regex matching to build a path
+        # (tag)(year)(month)(day).(doc id)
+        'regex': re.compile(r'^([A-Z]{3})_ENG_([0-9]{4})([0-9]{2})([0-9]{2})\.([0-9]{4})$'),
+        'path': '{tag}_eng/{tag}_eng_{year}{month}.gz',
+        'root': '/corpora/LDC/LDC11T07/data'
     },
 }
 
