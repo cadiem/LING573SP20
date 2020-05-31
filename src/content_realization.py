@@ -9,7 +9,7 @@ import sys
 import os
 import re
 import spacy
-from datetime import datetime       #will help with removing stray dates
+from data_input import Sentence
 
 nlp = spacy.load("en_core_web_lg")
 
@@ -19,15 +19,37 @@ def processed_sentences(sentence_collection):
 def sub_appropriate_corefs(sentence_collection):
     return sentence_collection
 
-def break_large_sentences(sentence_collection):
-    
-    return sentence_collection
+def break_large_sentences(sentence_collection, parse_collection, maxlen=7):
+    newcollection = []
+    for i in range(len(sentence_collection)):
+        senttext = sentence_collection[i].text
+        senttoks = [tok for tok in parse_collection[i]]
+        currparse = [tag.dep_ for tag in parse_collection[i]]
+        #break coordinating conjunctions and semicolons:
+        if len(senttext) < maxlen:
+            if ';' in senttext:
+                twohalves = senttext.split(';')
+                twohalves[1] = twohalves[1].strip().capitalize()
+                #append two sentences to array
+                newcollection.append(Sentence(twohalves[0], sentence_collection[i].doc_headline, sentence_collection[i].doc_date))
+                newcollection.append(Sentence(twohalves[1], sentence_collection[i].doc_headline, sentence_collection[i].doc_date))
+            elif currparse.count('ROOT') > 1:
+                splitdex = currparse.index('cc')
+                twohalves = []
+                twohalves[0] = ' '.join(senttoks[0:splitdex])
+                twohalves[1] = ' '.join(senttoks[splitdex + 1:len(senttoks)])
+                newcollection.append(Sentence(twohalves[0], sentence_collection[i].doc_headline, sentence_collection[i].doc_date))
+                newcollection.append(Sentence(twohalves[1], sentence_collection[i].doc_headline, sentence_collection[i].doc_date))
+        else:
+            newcollection.append(sentence_collection[i])
+    return newcollection
 
-def combine_sentences(sentence_collection):
+def combine_sentences(sentence_collection, minlen=5):
     #combine sentences for clarity, etc
     return sentence_collection
 
-#remove extra branches of the sentence parse tree, from gratuitous modifiers
+#remove extra nodes of the sentence parse tree- gratuitous modifiers
+#please note, this could cause problems for phrases like "forcibly removed"
 def remove_gratuitous_nodes(sentence_collection, parse_collection):
     output = []
     for i in range(len(sentence_collection)):
@@ -55,34 +77,30 @@ def remove_gratuitous_nodes(sentence_collection, parse_collection):
             elif words[i] == 'an' and words[i + 1][0] not in ['a','e','i','o','u']:
                 words[i] = 'a'
         sentout = " ".join(words)
-        
+        sentence_collection[i].text = sentout
         #add to sentence collection
-        output.append(sentout)
+        output.append(sentence_collection[i])
     return output
 
 #a redundancy hopefully: most such work will be done in preprocessing
 def pre_clean(sentence_collection):
-    #removing stray chars and punc
-    re.sub("[@^*()\{\}\[\]<>/-_+=?!\"]", "", sentence_collection)
-    #use regexes to remove the bylines, datelines, etc.
-    re.sub("[A-Z]+, [A-Z][a-z]*","", sentence_collection)    
+    for sentence in sentence_collection:
+        #removing stray chars and punc and datelines
+        sentence.text = re.sub(r"\([A-Z]+\, [A-Z][a-z]*\)", "", sentence.text)
+        sentence.text = re.sub(r"[A-Z]+[a-z]*, [A-Z][a-z]*","", sentence.text)    
+        sentence.text = re.sub(r"[\@\^\*\(\)\{\}\[\]\<\>\/\-\_\+\=\?\!\"]", "", sentence.text)
+        #use regexes to remove the bylines, datelines, etc.
     return sentence_collection
 
-def transformer_contreal(sentence_collection):
-    return sentence_collection
-    
-def realize_content(topics, summaries, output_dir, run_id, use_transformer=False):
+def realize_content(topics, summaries, output_dir, run_id):
     for topic in topics:
         print(topic.id)
         filename = '{}-A.M.100.{}.{}'.format(topic.id_1, topic.id_2, run_id)
         with open(os.path.join(output_dir, filename), 'w') as w:
             summaries[topic.id] = pre_clean(summaries[topic.id])
-            if not use_transformer:
-                processed_sentences = processed_sentences(summaries[topic.id])
-                summaries[topic.id] = combine_sentences(summaries[topic.id], processed_sentences)
-                summaries[topic.id] = sub_appropriate_corefs(summaries[topic.id], processed_sentences)
-                summaries[topic.id] = remove_gratuitous_nodes(summaries[topic.id], processed_sentences)
-            else:
-                summaries[topic.id] = transformer_contreal(summaries[topic.id])
+            processed_sents = processed_sentences(summaries[topic.id])
+            summaries[topic.id] = break_large_sentences(summaries[topic.id], processed_sents)
+            processed_sents = processed_sentences(summaries[topic.id])
+            summaries[topic.id] = remove_gratuitous_nodes(summaries[topic.id], processed_sents)
             for sentence in summaries[topic.id]:
                 w.write("{}\n".format(sentence.text))
