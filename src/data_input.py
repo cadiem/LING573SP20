@@ -2,6 +2,7 @@
 # -*- coding: utf-8 -*-
 
 import os
+import gzip
 import re
 from datetime import datetime
 from time import time
@@ -213,8 +214,12 @@ class Topic:
         if not path:
             return
 
-        with open(path, 'r') as f:
-            contents = f.read()
+        if path.endswith('.gz'):
+            with gzip.open(path, 'r') as f:
+                contents = f.read()
+        else:
+            with open(path, 'r') as f:
+                contents = f.read()
 
         if corpus == 'AQUAINT':
             # Do some basic escaping, and add a root node
@@ -238,7 +243,7 @@ class Topic:
 
                     # Add this document
                     self.documents.append(Document(self.nlp, doc_id, date, headline_el, text_el))
-        elif corpus == 'AQUAINT-2':
+        elif corpus == 'AQUAINT-2' or corpus == 'GIGAWORD':
             contents = CLEAN_RE.sub('', contents)
 
             try:
