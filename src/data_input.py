@@ -110,14 +110,41 @@ class Document:
             self.text = self.clean_text(text_el)
 
         if not skip_sentences:
-            self.sentences = self.get_sentences(nlp, self.headline, self.text, self.doc_date)
+            self.sentences = self.parse_sentences(nlp, self.headline, self.text, self.doc_date)
 
-    def get_sentences(self, nlp, headline, text, doc_date):
+    def parse_sentences(self, nlp, headline, text, doc_date):
         sentences = []
         nlp_doc = nlp(text)
         for sentence in nlp_doc.sents:
             sentences.append(Sentence(re.sub('\s*\n\s*', ' ', sentence.text), headline, doc_date))
         return sentences
+
+    def get_filtered_sentences(self, min_words):
+        '''
+        Get filtered sentences from the doc
+        * Remove sentences not meeting the minimum word requirement
+        * Remove sentences that end in question marks
+        * Remove bylines (naively: if first sentence ends in - or _)
+        '''
+
+        sentences = []
+        first = True
+        for sent in self.sentences:
+            if len(sent.text.split(' ')) < min_words:
+                continue
+
+            if first:
+                first = False
+                if sent.text[-1] in ('-', '_'):
+                    continue
+
+            if sent.text[-1] == '?':
+                continue
+
+            sentences.append(sent)
+
+        return sentences
+
 
     def clean_text(self, text_el):
         '''
@@ -269,6 +296,7 @@ def get_topics(nlp, corpus_dir, corpus_config, use_checkpoint=False):
             topic.load_doc(doc_id)
 
         topics.append(topic)
+
         print('Topic took {t:.02f} seconds'.format(t=(time() - start_time)))
 
     if use_checkpoint:
