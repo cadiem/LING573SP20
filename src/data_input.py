@@ -216,7 +216,7 @@ class Topic:
 
         if path.endswith('.gz'):
             with gzip.open(path, 'r') as f:
-                contents = f.read()
+                contents = f.read().decode('utf-8')
         else:
             with open(path, 'r') as f:
                 contents = f.read()
@@ -243,7 +243,7 @@ class Topic:
 
                     # Add this document
                     self.documents.append(Document(self.nlp, doc_id, date, headline_el, text_el))
-        elif corpus == 'AQUAINT-2' or corpus == 'GIGAWORD':
+        elif corpus == 'AQUAINT-2':
             contents = CLEAN_RE.sub('', contents)
 
             try:
