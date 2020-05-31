@@ -14,7 +14,7 @@ from datetime import datetime       #will help with removing stray dates
 nlp = spacy.load("en_core_web_lg")
 
 def processed_sentences(sentence_collection):
-    return [nlp(sentence) for sentence in sentence_collection]
+    return [nlp(sentence.text) for sentence in sentence_collection]
 
 def sub_appropriate_corefs(sentence_collection):
     return sentence_collection
@@ -32,7 +32,7 @@ def remove_gratuitous_nodes(sentence_collection, parse_collection):
     output = []
     for i in range(len(sentence_collection)):
         sentout = ""
-        sent = sentence_collection[i] 
+        sent = sentence_collection[i].text 
         parse = [tag.dep_ for tag in parse_collection[i]]
         
         for j in range(len(sent)):
