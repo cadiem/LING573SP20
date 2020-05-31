@@ -2,6 +2,7 @@
 # -*- coding: utf-8 -*-
 
 import os
+import gzip
 import re
 from datetime import datetime
 from time import time
@@ -14,7 +15,7 @@ __author__ = 'Daniel Campos, Sicong Huang, Hayley Luke, Simola Nayak, Shunjie Wa
 __email__ = 'dacampos@uw.edu,  huangs33@uw.edu, shunjiew@uw.edu, simnayak@uw.edu, jhluke@uw.edu'
 
 # strings to remove from xml before parsing
-CLEAN_RE = re.compile(r'\&.+;')
+CLEAN_RE = re.compile(r'\&.+;|>[0-9]|<[0-9]')
 
 # examples:
 # <doc id = "NYT19980903.0137" />
@@ -34,16 +35,24 @@ PATH_MAPPING = {
         'path': '{tag}_eng/{tag}_eng_{year}{month}.xml',
         'root': '/corpora/LDC/LDC08T25/data'#'/corpora/LDC/LDC08T25/data' #'./patas/AQUAINT-2/data' #'Data/LDC08T25/data' #Change this for patas folders aka /corpora/LDC/LDC08T25/data
     },
+    'GIGAWORD': {
+        # Do some regex matching to build a path
+        # (tag)(year)(month)(day).(doc id)
+        'regex': re.compile(r'^([A-Z]{3})_ENG_([0-9]{4})([0-9]{2})([0-9]{2})\.([0-9]{4})$'),
+        'path': '{tag}_eng/{tag}_eng_{year}{month}.gz',
+        'root': '/corpora/LDC/LDC11T07/data'
+    },
 }
 
 
-def build_path(doc_id):
+def build_path(base_id):
     for corpus, info in PATH_MAPPING.items():
-        match = info['regex'].match(doc_id)
+        match = info['regex'].match(base_id)
 
         if not match:
             continue
 
+        path = ''
         tag, year, month, day, doc_id = match.groups()
         date = datetime(int(year), int(month), int(day))
         if corpus == 'AQUAINT':
@@ -55,10 +64,13 @@ def build_path(doc_id):
                 # Only the NYT doesn't have this suffix
                 tag += '_ENG'
             path = info['path'].format(tag=tag, tag_lower=original_tag.lower(), year=year, month=month, day=day, doc_id=doc_id)
-            return os.path.join(info['root'], path), date, corpus
-        elif corpus == 'AQUAINT-2':
+            path = os.path.join(info['root'], path)
+        elif corpus == 'AQUAINT-2' or corpus == 'GIGAWORD':
             path = info['path'].format(tag=tag.lower(), year=year, month=month)
-            return os.path.join(info['root'], path), date, corpus
+            path = os.path.join(info['root'], path)
+
+        if os.path.exists(path):
+            return path, date, corpus
 
     # If we get here without returning, we didn't figure out the path
     print('Unable to find path for {doc_id}'.format(doc_id=doc_id))
@@ -202,8 +214,12 @@ class Topic:
         if not path:
             return
 
-        with open(path, 'r') as f:
-            contents = f.read()
+        if path.endswith('.gz'):
+            with gzip.open(path, 'r') as f:
+                contents = f.read().decode('utf-8')
+        else:
+            with open(path, 'r') as f:
+                contents = f.read()
 
         if corpus == 'AQUAINT':
             # Do some basic escaping, and add a root node
@@ -230,6 +246,24 @@ class Topic:
         elif corpus == 'AQUAINT-2':
             contents = CLEAN_RE.sub('', contents)
 
+            try:
+                group_tree = ET.fromstring(contents)
+            except ET.ParseError as e:
+                print('Error parsing {path} for {doc_id}'.format(path=path, doc_id=doc_id))
+                print(e)
+                raise e
+
+            for child in group_tree.findall('DOC'):
+                found_doc_id = child.attrib['id']
+                if doc_id == found_doc_id:
+                    headline_el = child.find('HEADLINE')
+                    text_el = child.find('TEXT')
+
+                    # Add this document
+                    self.documents.append(Document(self.nlp, doc_id, date, headline_el, text_el))
+        elif corpus == 'GIGAWORD':
+            contents = CLEAN_RE.sub('', contents)
+            contents = '<root>' + contents + '</root>'
             try:
                 group_tree = ET.fromstring(contents)
             except ET.ParseError as e:
