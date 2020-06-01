@@ -50,7 +50,7 @@ def remove_gratuitous_nodes(sentence_collection, parse_collection):
     output = []
     for i in range(len(sentence_collection)):
         sentout = ""
-        sent = sentence_collection[i].text 
+        sent = [tok for tok in parse_collection[i]]
         parse = [tag.dep_ for tag in parse_collection[i]]
         
         for j in range(len(sent)):
