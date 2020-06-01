@@ -90,10 +90,10 @@ def pre_clean(sentence_collection):
     return sentence_collection
 
 def realize_content(topics, summaries, output_dir, run_id):
+    os.makedirs(output_dir, exist_ok=True)
     for topic in topics:
         print(topic.id)
         filename = '{}-A.M.100.{}.{}'.format(topic.id_1, topic.id_2, run_id)
-        os.mkdir(output_dir, exist_ok=True)
         with open(os.path.join(output_dir, filename), 'w') as w:
             summaries[topic.id] = pre_clean(summaries[topic.id])
             processed_sents = processed_sentences(summaries[topic.id])
