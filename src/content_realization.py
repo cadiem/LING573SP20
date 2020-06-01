@@ -50,11 +50,11 @@ def remove_gratuitous_nodes(sentence_collection, parse_collection):
     output = []
     for i in range(len(sentence_collection)):
         sentout = ""
-        sent = sentence_collection[i].text 
+        sent = sentence_collection[i].text
         parse = [tag.dep_ for tag in parse_collection[i]]
-        
+
         for j in range(len(sent)):
-            #exclude modifiers 
+            #exclude modifiers
             if 'mod' in parse[j]:
                 pass
             #no space after punct
@@ -65,7 +65,7 @@ def remove_gratuitous_nodes(sentence_collection, parse_collection):
                 sentout += " "
                 sentout += sent[j]
         words = sentout.split()
-        
+
         #determiner agreement
         for i in range(len(words) - 1):
             if words[i] == 'a' and words[i + 1][0] in ['a','e','i','o','u']:
@@ -83,22 +83,16 @@ def pre_clean(sentence_collection):
     for sentence in sentence_collection:
         #removing stray chars and punc and datelines
         sentence.text = re.sub(r"\([A-Z]+\, [A-Z][a-z]*\)", "", sentence.text)
-        sentence.text = re.sub(r"[A-Z]+[a-z]*, [A-Z][a-z]*","", sentence.text)    
+        sentence.text = re.sub(r"[A-Z]+[a-z]*, [A-Z][a-z]*","", sentence.text)
         sentence.text = re.sub(r"[\@\^\*\(\)\{\}\[\]\<\>\/\-\_\+\=\"\`]", "", sentence.text)
         sentence.text = re.sub(r"[A-Za-z]+\ {2,}", "", sentence.text)
         #use regexes to remove the bylines, datelines, etc.
     return sentence_collection
 
 def realize_content(topics, summaries, output_dir, run_id):
-    os.makedirs(output_dir, exist_ok=True)
     for topic in topics:
         print(topic.id)
         filename = '{}-A.M.100.{}.{}'.format(topic.id_1, topic.id_2, run_id)
         with open(os.path.join(output_dir, filename), 'w') as w:
-            summaries[topic.id] = pre_clean(summaries[topic.id])
-            processed_sents = processed_sentences(summaries[topic.id])
-            summaries[topic.id] = break_large_sentences(summaries[topic.id], processed_sents)
-            processed_sents = processed_sentences(summaries[topic.id])
-            summaries[topic.id] = remove_gratuitous_nodes(summaries[topic.id], processed_sents)
             for sentence in summaries[topic.id]:
                 w.write("{}\n".format(sentence.text))
