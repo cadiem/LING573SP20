@@ -52,7 +52,7 @@ if __name__ == '__main__':
         #train the model add some ML stuff here in later phases
         print("No training yet")
     if args.do_load_data:
-        print("loading spacy")
+        print("loading spacy for data processing")
         nlp = spacy.load(args.word_vectors)
         print("Loading Data")
         topics = get_topics(nlp, args.corpus_dir, args.corpus_config, args.use_checkpoint)
