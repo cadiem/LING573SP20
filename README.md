@@ -9,7 +9,7 @@ LING 573: Language Processing Systems & Applications aka https://www.compling.uw
 To run you need to ensure you have a virtual environment that has the needed libraries on patas. To do so either use the one mentioned in run.sh or make your own. To make your own, see below. 
 
 ```
-python3.7 -m venv 573-venv
+python3.6 -m venv 573-venv
 . 573-venv/bin/activate
 pip install spacy
 pip install -U sentence-transformers
