@@ -59,11 +59,11 @@ def remove_gratuitous_nodes(sentence_collection, parse_collection):
                 pass
             #no space after punct
             elif parse[j] == 'punct':
-                sentout += sent[j]
+                sentout += str(sent[j])
             #space and then the word
             else:
                 sentout += " "
-                sentout += sent[j]
+                sentout += str(sent[j])
         words = sentout.split()
         
         #determiner agreement
