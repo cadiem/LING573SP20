@@ -8,4 +8,6 @@ notification = complete
 arguments = "run.sh"
 transfer_executable = false 
 request_memory = 2*1024
+arguments = "./run.sh"
+transfer_executable=false
 queue
