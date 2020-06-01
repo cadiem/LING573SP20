@@ -696,3 +696,671 @@ D1045H
 D1046H
 Starting evaluation
 Evaluation done
+Reading model...done.
+Reading test examples...done.
+Classifying test examples...done
+Runtime (without IO) in cpu-seconds: 0.00
+Average loss on test set: 0.0000
+Zero/one-error on test set: 0.00% (20 correct, 0 incorrect, 20 total)
+NOTE: The loss reported above is the fraction of swapped pairs averaged over
+      all rankings. The zero/one-error is fraction of perfectly correct
+      rankings!
+Total Num Swappedpairs  :      0
+Avg Swappedpairs Percent:   0.00
+Reading model...done.
+Reading test examples...done.
+Classifying test examples...done
+Runtime (without IO) in cpu-seconds: 0.00
+Average loss on test set: 0.0000
+Zero/one-error on test set: 0.00% (20 correct, 0 incorrect, 20 total)
+NOTE: The loss reported above is the fraction of swapped pairs averaged over
+      all rankings. The zero/one-error is fraction of perfectly correct
+      rankings!
+Total Num Swappedpairs  :      0
+Avg Swappedpairs Percent:   0.00
+Reading model...done.
+Reading test examples...done.
+Classifying test examples...done
+Runtime (without IO) in cpu-seconds: 0.00
+Average loss on test set: 0.0000
+Zero/one-error on test set: 0.00% (7 correct, 0 incorrect, 7 total)
+NOTE: The loss reported above is the fraction of swapped pairs averaged over
+      all rankings. The zero/one-error is fraction of perfectly correct
+      rankings!
+Total Num Swappedpairs  :      0
+Avg Swappedpairs Percent:   0.00
+Reading model...done.
+Reading test examples...done.
+Classifying test examples...done
+Runtime (without IO) in cpu-seconds: 0.00
+Average loss on test set: 0.0000
+Zero/one-error on test set: 0.00% (20 correct, 0 incorrect, 20 total)
+NOTE: The loss reported above is the fraction of swapped pairs averaged over
+      all rankings. The zero/one-error is fraction of perfectly correct
+      rankings!
+Total Num Swappedpairs  :      0
+Avg Swappedpairs Percent:   0.00
+Reading model...done.
+Reading test examples...done.
+Classifying test examples...done
+Runtime (without IO) in cpu-seconds: 0.00
+Average loss on test set: 0.0000
+Zero/one-error on test set: 0.00% (20 correct, 0 incorrect, 20 total)
+NOTE: The loss reported above is the fraction of swapped pairs averaged over
+      all rankings. The zero/one-error is fraction of perfectly correct
+      rankings!
+Total Num Swappedpairs  :      0
+Avg Swappedpairs Percent:   0.00
+Reading model...done.
+Reading test examples...done.
+Classifying test examples...done
+Runtime (without IO) in cpu-seconds: 0.00
+Average loss on test set: 0.0000
+Zero/one-error on test set: 0.00% (7 correct, 0 incorrect, 7 total)
+NOTE: The loss reported above is the fraction of swapped pairs averaged over
+      all rankings. The zero/one-error is fraction of perfectly correct
+      rankings!
+Total Num Swappedpairs  :      0
+Avg Swappedpairs Percent:   0.00
+Reading model...done.
+Reading test examples...done.
+Classifying test examples...done
+Runtime (without IO) in cpu-seconds: 0.00
+Average loss on test set: 0.0000
+Zero/one-error on test set: 0.00% (20 correct, 0 incorrect, 20 total)
+NOTE: The loss reported above is the fraction of swapped pairs averaged over
+      all rankings. The zero/one-error is fraction of perfectly correct
+      rankings!
+Total Num Swappedpairs  :      0
+Avg Swappedpairs Percent:   0.00
+Reading model...done.
+Reading test examples...done.
+Classifying test examples...done
+Runtime (without IO) in cpu-seconds: 0.00
+Average loss on test set: 0.0000
+Zero/one-error on test set: 0.00% (20 correct, 0 incorrect, 20 total)
+NOTE: The loss reported above is the fraction of swapped pairs averaged over
+      all rankings. The zero/one-error is fraction of perfectly correct
+      rankings!
+Total Num Swappedpairs  :      0
+Avg Swappedpairs Percent:   0.00
+Reading model...done.
+Reading test examples...done.
+Classifying test examples...done
+Runtime (without IO) in cpu-seconds: 0.00
+Average loss on test set: 0.0000
+Zero/one-error on test set: 0.00% (20 correct, 0 incorrect, 20 total)
+NOTE: The loss reported above is the fraction of swapped pairs averaged over
+      all rankings. The zero/one-error is fraction of perfectly correct
+      rankings!
+Total Num Swappedpairs  :      0
+Avg Swappedpairs Percent:   0.00
+Reading model...done.
+Reading test examples...done.
+Classifying test examples...done
+Runtime (without IO) in cpu-seconds: 0.00
+Average loss on test set: 0.0000
+Zero/one-error on test set: 0.00% (7 correct, 0 incorrect, 7 total)
+NOTE: The loss reported above is the fraction of swapped pairs averaged over
+      all rankings. The zero/one-error is fraction of perfectly correct
+      rankings!
+Total Num Swappedpairs  :      0
+Avg Swappedpairs Percent:   0.00
+Reading model...done.
+Reading test examples...done.
+Classifying test examples...done
+Runtime (without IO) in cpu-seconds: 0.00
+Average loss on test set: 0.0000
+Zero/one-error on test set: 0.00% (20 correct, 0 incorrect, 20 total)
+NOTE: The loss reported above is the fraction of swapped pairs averaged over
+      all rankings. The zero/one-error is fraction of perfectly correct
+      rankings!
+Total Num Swappedpairs  :      0
+Avg Swappedpairs Percent:   0.00
+Reading model...done.
+Reading test examples...done.
+Classifying test examples...done
+Runtime (without IO) in cpu-seconds: 0.00
+Average loss on test set: 0.0000
+Zero/one-error on test set: 0.00% (20 correct, 0 incorrect, 20 total)
+NOTE: The loss reported above is the fraction of swapped pairs averaged over
+      all rankings. The zero/one-error is fraction of perfectly correct
+      rankings!
+Total Num Swappedpairs  :      0
+Avg Swappedpairs Percent:   0.00
+Reading model...done.
+Reading test examples...done.
+Classifying test examples...done
+Runtime (without IO) in cpu-seconds: 0.00
+Average loss on test set: 0.0000
+Zero/one-error on test set: 0.00% (20 correct, 0 incorrect, 20 total)
+NOTE: The loss reported above is the fraction of swapped pairs averaged over
+      all rankings. The zero/one-error is fraction of perfectly correct
+      rankings!
+Total Num Swappedpairs  :      0
+Avg Swappedpairs Percent:   0.00
+Reading model...done.
+Reading test examples...done.
+Classifying test examples...done
+Runtime (without IO) in cpu-seconds: 0.00
+Average loss on test set: 0.0000
+Zero/one-error on test set: 0.00% (20 correct, 0 incorrect, 20 total)
+NOTE: The loss reported above is the fraction of swapped pairs averaged over
+      all rankings. The zero/one-error is fraction of perfectly correct
+      rankings!
+Total Num Swappedpairs  :      0
+Avg Swappedpairs Percent:   0.00
+Reading model...done.
+Reading test examples...done.
+Classifying test examples...done
+Runtime (without IO) in cpu-seconds: 0.00
+Average loss on test set: 0.0000
+Zero/one-error on test set: 0.00% (20 correct, 0 incorrect, 20 total)
+NOTE: The loss reported above is the fraction of swapped pairs averaged over
+      all rankings. The zero/one-error is fraction of perfectly correct
+      rankings!
+Total Num Swappedpairs  :      0
+Avg Swappedpairs Percent:   0.00
+Reading model...done.
+Reading test examples...done.
+Classifying test examples...done
+Runtime (without IO) in cpu-seconds: 0.00
+Average loss on test set: 0.0000
+Zero/one-error on test set: 0.00% (20 correct, 0 incorrect, 20 total)
+NOTE: The loss reported above is the fraction of swapped pairs averaged over
+      all rankings. The zero/one-error is fraction of perfectly correct
+      rankings!
+Total Num Swappedpairs  :      0
+Avg Swappedpairs Percent:   0.00
+Reading model...done.
+Reading test examples...done.
+Classifying test examples...done
+Runtime (without IO) in cpu-seconds: 0.00
+Average loss on test set: 0.0000
+Zero/one-error on test set: 0.00% (20 correct, 0 incorrect, 20 total)
+NOTE: The loss reported above is the fraction of swapped pairs averaged over
+      all rankings. The zero/one-error is fraction of perfectly correct
+      rankings!
+Total Num Swappedpairs  :      0
+Avg Swappedpairs Percent:   0.00
+Reading model...done.
+Reading test examples...done.
+Classifying test examples...done
+Runtime (without IO) in cpu-seconds: 0.00
+Average loss on test set: 0.0000
+Zero/one-error on test set: 0.00% (20 correct, 0 incorrect, 20 total)
+NOTE: The loss reported above is the fraction of swapped pairs averaged over
+      all rankings. The zero/one-error is fraction of perfectly correct
+      rankings!
+Total Num Swappedpairs  :      0
+Avg Swappedpairs Percent:   0.00
+Reading model...done.
+Reading test examples...done.
+Classifying test examples...done
+Runtime (without IO) in cpu-seconds: 0.00
+Average loss on test set: 0.0000
+Zero/one-error on test set: 0.00% (20 correct, 0 incorrect, 20 total)
+NOTE: The loss reported above is the fraction of swapped pairs averaged over
+      all rankings. The zero/one-error is fraction of perfectly correct
+      rankings!
+Total Num Swappedpairs  :      0
+Avg Swappedpairs Percent:   0.00
+Reading model...done.
+Reading test examples...done.
+Classifying test examples...done
+Runtime (without IO) in cpu-seconds: 0.00
+Average loss on test set: 0.0000
+Zero/one-error on test set: 0.00% (20 correct, 0 incorrect, 20 total)
+NOTE: The loss reported above is the fraction of swapped pairs averaged over
+      all rankings. The zero/one-error is fraction of perfectly correct
+      rankings!
+Total Num Swappedpairs  :      0
+Avg Swappedpairs Percent:   0.00
+Reading model...done.
+Reading test examples...done.
+Classifying test examples...done
+Runtime (without IO) in cpu-seconds: 0.00
+Average loss on test set: 0.0000
+Zero/one-error on test set: 0.00% (20 correct, 0 incorrect, 20 total)
+NOTE: The loss reported above is the fraction of swapped pairs averaged over
+      all rankings. The zero/one-error is fraction of perfectly correct
+      rankings!
+Total Num Swappedpairs  :      0
+Avg Swappedpairs Percent:   0.00
+Reading model...done.
+Reading test examples...done.
+Classifying test examples...done
+Runtime (without IO) in cpu-seconds: 0.00
+Average loss on test set: 0.0000
+Zero/one-error on test set: 0.00% (20 correct, 0 incorrect, 20 total)
+NOTE: The loss reported above is the fraction of swapped pairs averaged over
+      all rankings. The zero/one-error is fraction of perfectly correct
+      rankings!
+Total Num Swappedpairs  :      0
+Avg Swappedpairs Percent:   0.00
+Reading model...done.
+Reading test examples...done.
+Classifying test examples...done
+Runtime (without IO) in cpu-seconds: 0.00
+Average loss on test set: 0.0000
+Zero/one-error on test set: 0.00% (20 correct, 0 incorrect, 20 total)
+NOTE: The loss reported above is the fraction of swapped pairs averaged over
+      all rankings. The zero/one-error is fraction of perfectly correct
+      rankings!
+Total Num Swappedpairs  :      0
+Avg Swappedpairs Percent:   0.00
+Reading model...done.
+Reading test examples...done.
+Classifying test examples...done
+Runtime (without IO) in cpu-seconds: 0.00
+Average loss on test set: 0.0000
+Zero/one-error on test set: 0.00% (20 correct, 0 incorrect, 20 total)
+NOTE: The loss reported above is the fraction of swapped pairs averaged over
+      all rankings. The zero/one-error is fraction of perfectly correct
+      rankings!
+Total Num Swappedpairs  :      0
+Avg Swappedpairs Percent:   0.00
+Reading model...done.
+Reading test examples...done.
+Classifying test examples...done
+Runtime (without IO) in cpu-seconds: 0.00
+Average loss on test set: 0.0000
+Zero/one-error on test set: 0.00% (20 correct, 0 incorrect, 20 total)
+NOTE: The loss reported above is the fraction of swapped pairs averaged over
+      all rankings. The zero/one-error is fraction of perfectly correct
+      rankings!
+Total Num Swappedpairs  :      0
+Avg Swappedpairs Percent:   0.00
+Reading model...done.
+Reading test examples...done.
+Classifying test examples...done
+Runtime (without IO) in cpu-seconds: 0.00
+Average loss on test set: 0.0000
+Zero/one-error on test set: 0.00% (20 correct, 0 incorrect, 20 total)
+NOTE: The loss reported above is the fraction of swapped pairs averaged over
+      all rankings. The zero/one-error is fraction of perfectly correct
+      rankings!
+Total Num Swappedpairs  :      0
+Avg Swappedpairs Percent:   0.00
+Reading model...done.
+Reading test examples...done.
+Classifying test examples...done
+Runtime (without IO) in cpu-seconds: 0.00
+Average loss on test set: 0.0000
+Zero/one-error on test set: 0.00% (20 correct, 0 incorrect, 20 total)
+NOTE: The loss reported above is the fraction of swapped pairs averaged over
+      all rankings. The zero/one-error is fraction of perfectly correct
+      rankings!
+Total Num Swappedpairs  :      0
+Avg Swappedpairs Percent:   0.00
+Reading model...done.
+Reading test examples...done.
+Classifying test examples...done
+Runtime (without IO) in cpu-seconds: 0.00
+Average loss on test set: 0.0000
+Zero/one-error on test set: 0.00% (20 correct, 0 incorrect, 20 total)
+NOTE: The loss reported above is the fraction of swapped pairs averaged over
+      all rankings. The zero/one-error is fraction of perfectly correct
+      rankings!
+Total Num Swappedpairs  :      0
+Avg Swappedpairs Percent:   0.00
+Reading model...done.
+Reading test examples...done.
+Classifying test examples...done
+Runtime (without IO) in cpu-seconds: 0.00
+Average loss on test set: 0.0000
+Zero/one-error on test set: 0.00% (20 correct, 0 incorrect, 20 total)
+NOTE: The loss reported above is the fraction of swapped pairs averaged over
+      all rankings. The zero/one-error is fraction of perfectly correct
+      rankings!
+Total Num Swappedpairs  :      0
+Avg Swappedpairs Percent:   0.00
+Reading model...done.
+Reading test examples...done.
+Classifying test examples...done
+Runtime (without IO) in cpu-seconds: 0.00
+Average loss on test set: 0.0000
+Zero/one-error on test set: 0.00% (20 correct, 0 incorrect, 20 total)
+NOTE: The loss reported above is the fraction of swapped pairs averaged over
+      all rankings. The zero/one-error is fraction of perfectly correct
+      rankings!
+Total Num Swappedpairs  :      0
+Avg Swappedpairs Percent:   0.00
+Reading model...done.
+Reading test examples...done.
+Classifying test examples...done
+Runtime (without IO) in cpu-seconds: 0.00
+Average loss on test set: 0.0000
+Zero/one-error on test set: 0.00% (20 correct, 0 incorrect, 20 total)
+NOTE: The loss reported above is the fraction of swapped pairs averaged over
+      all rankings. The zero/one-error is fraction of perfectly correct
+      rankings!
+Total Num Swappedpairs  :      0
+Avg Swappedpairs Percent:   0.00
+Reading model...done.
+Reading test examples...done.
+Classifying test examples...done
+Runtime (without IO) in cpu-seconds: 0.00
+Average loss on test set: 0.0000
+Zero/one-error on test set: 0.00% (20 correct, 0 incorrect, 20 total)
+NOTE: The loss reported above is the fraction of swapped pairs averaged over
+      all rankings. The zero/one-error is fraction of perfectly correct
+      rankings!
+Total Num Swappedpairs  :      0
+Avg Swappedpairs Percent:   0.00
+Reading model...done.
+Reading test examples...done.
+Classifying test examples...done
+Runtime (without IO) in cpu-seconds: 0.00
+Average loss on test set: 0.0000
+Zero/one-error on test set: 0.00% (7 correct, 0 incorrect, 7 total)
+NOTE: The loss reported above is the fraction of swapped pairs averaged over
+      all rankings. The zero/one-error is fraction of perfectly correct
+      rankings!
+Total Num Swappedpairs  :      0
+Avg Swappedpairs Percent:   0.00
+Reading model...done.
+Reading test examples...done.
+Classifying test examples...done
+Runtime (without IO) in cpu-seconds: 0.00
+Average loss on test set: 0.0000
+Zero/one-error on test set: 0.00% (20 correct, 0 incorrect, 20 total)
+NOTE: The loss reported above is the fraction of swapped pairs averaged over
+      all rankings. The zero/one-error is fraction of perfectly correct
+      rankings!
+Total Num Swappedpairs  :      0
+Avg Swappedpairs Percent:   0.00
+Reading model...done.
+Reading test examples...done.
+Classifying test examples...done
+Runtime (without IO) in cpu-seconds: 0.00
+Average loss on test set: 0.0000
+Zero/one-error on test set: 0.00% (20 correct, 0 incorrect, 20 total)
+NOTE: The loss reported above is the fraction of swapped pairs averaged over
+      all rankings. The zero/one-error is fraction of perfectly correct
+      rankings!
+Total Num Swappedpairs  :      0
+Avg Swappedpairs Percent:   0.00
+Reading model...done.
+Reading test examples...done.
+Classifying test examples...done
+Runtime (without IO) in cpu-seconds: 0.00
+Average loss on test set: 0.0000
+Zero/one-error on test set: 0.00% (20 correct, 0 incorrect, 20 total)
+NOTE: The loss reported above is the fraction of swapped pairs averaged over
+      all rankings. The zero/one-error is fraction of perfectly correct
+      rankings!
+Total Num Swappedpairs  :      0
+Avg Swappedpairs Percent:   0.00
+Reading model...done.
+Reading test examples...done.
+Classifying test examples...done
+Runtime (without IO) in cpu-seconds: 0.00
+Average loss on test set: 0.0000
+Zero/one-error on test set: 0.00% (20 correct, 0 incorrect, 20 total)
+NOTE: The loss reported above is the fraction of swapped pairs averaged over
+      all rankings. The zero/one-error is fraction of perfectly correct
+      rankings!
+Total Num Swappedpairs  :      0
+Avg Swappedpairs Percent:   0.00
+Reading model...done.
+Reading test examples...done.
+Classifying test examples...done
+Runtime (without IO) in cpu-seconds: 0.00
+Average loss on test set: 0.0000
+Zero/one-error on test set: 0.00% (20 correct, 0 incorrect, 20 total)
+NOTE: The loss reported above is the fraction of swapped pairs averaged over
+      all rankings. The zero/one-error is fraction of perfectly correct
+      rankings!
+Total Num Swappedpairs  :      0
+Avg Swappedpairs Percent:   0.00
+Reading model...done.
+Reading test examples...done.
+Classifying test examples...done
+Runtime (without IO) in cpu-seconds: 0.00
+Average loss on test set: 0.0000
+Zero/one-error on test set: 0.00% (20 correct, 0 incorrect, 20 total)
+NOTE: The loss reported above is the fraction of swapped pairs averaged over
+      all rankings. The zero/one-error is fraction of perfectly correct
+      rankings!
+Total Num Swappedpairs  :      0
+Avg Swappedpairs Percent:   0.00
+Reading model...done.
+Reading test examples...done.
+Classifying test examples...done
+Runtime (without IO) in cpu-seconds: 0.00
+Average loss on test set: 0.0000
+Zero/one-error on test set: 0.00% (20 correct, 0 incorrect, 20 total)
+NOTE: The loss reported above is the fraction of swapped pairs averaged over
+      all rankings. The zero/one-error is fraction of perfectly correct
+      rankings!
+Total Num Swappedpairs  :      0
+Avg Swappedpairs Percent:   0.00
+Reading model...done.
+Reading test examples...done.
+Classifying test examples...done
+Runtime (without IO) in cpu-seconds: 0.00
+Average loss on test set: 0.0000
+Zero/one-error on test set: 0.00% (20 correct, 0 incorrect, 20 total)
+NOTE: The loss reported above is the fraction of swapped pairs averaged over
+      all rankings. The zero/one-error is fraction of perfectly correct
+      rankings!
+Total Num Swappedpairs  :      0
+Avg Swappedpairs Percent:   0.00
+Reading model...done.
+Reading test examples...done.
+Classifying test examples...done
+Runtime (without IO) in cpu-seconds: 0.00
+Average loss on test set: 0.0000
+Zero/one-error on test set: 0.00% (7 correct, 0 incorrect, 7 total)
+NOTE: The loss reported above is the fraction of swapped pairs averaged over
+      all rankings. The zero/one-error is fraction of perfectly correct
+      rankings!
+Total Num Swappedpairs  :      0
+Avg Swappedpairs Percent:   0.00
+Reading model...done.
+Reading test examples...done.
+Classifying test examples...done
+Runtime (without IO) in cpu-seconds: 0.00
+Average loss on test set: 0.0000
+Zero/one-error on test set: 0.00% (20 correct, 0 incorrect, 20 total)
+NOTE: The loss reported above is the fraction of swapped pairs averaged over
+      all rankings. The zero/one-error is fraction of perfectly correct
+      rankings!
+Total Num Swappedpairs  :      0
+Avg Swappedpairs Percent:   0.00
+Reading model...done.
+Reading test examples...done.
+Classifying test examples...done
+Runtime (without IO) in cpu-seconds: 0.00
+Average loss on test set: 0.0000
+Zero/one-error on test set: 0.00% (20 correct, 0 incorrect, 20 total)
+NOTE: The loss reported above is the fraction of swapped pairs averaged over
+      all rankings. The zero/one-error is fraction of perfectly correct
+      rankings!
+Total Num Swappedpairs  :      0
+Avg Swappedpairs Percent:   0.00
+loading spacy
+Loading Data
+D1101A (Amish Shooting)
+Topic took 18.97 seconds
+D1102A (Internet Security)
+Topic took 15.63 seconds
+D1103A (Madrid Trainbombings Trial)
+Topic took 11.86 seconds
+D1104A (Pet Food Recall)
+Topic took 16.16 seconds
+D1105A (Plane Crash Indonesia)
+Topic took 12.02 seconds
+D1106A (Tuna Fishing)
+Topic took 16.75 seconds
+D1107B (China Food Safety)
+Topic took 5.97 seconds
+D1108B (Cyclone Sidr)
+Topic took 12.46 seconds
+D1109B (Dimona Attack)
+Topic took 5.46 seconds
+D1110B (Earthquake Sichuan)
+Topic took 8.46 seconds
+D1111B (Finland Shooting)
+Topic took 13.70 seconds
+D1112C (Alvarez Metrolink Trial)
+Topic took 15.87 seconds
+D1113C (Elephants Ivory)
+Topic took 14.35 seconds
+D1114C (Heart Disease)
+Topic took 7.78 seconds
+D1115C (Oil Spill South Korea)
+Topic took 14.30 seconds
+D1116C (VTech Shooting)
+Topic took 11.10 seconds
+D1117C (Walter Reed Investigation)
+Topic took 7.58 seconds
+D1118D (Hawkins Robert Van Maur)
+Topic took 15.13 seconds
+D1119D (Infant Cold Medicine)
+Topic took 17.83 seconds
+D1120D (Lake Meade Drought)
+Topic took 8.85 seconds
+D1121D (Michael Vick Dog Fight)
+Topic took 14.77 seconds
+D1122D (Minnesota Bridge Collapse)
+Topic took 17.50 seconds
+D1123D (USEmbassy Greece Attack)
+Topic took 18.80 seconds
+D1124E (Indonesian Mud Volcano)
+Topic took 10.95 seconds
+D1125E (Polar Bears)
+Topic took 14.89 seconds
+D1126E (Reporter Shoe Bush)
+Topic took 8.55 seconds
+D1127E (Sleep Deprivation)
+Topic took 9.33 seconds
+D1128E (Taylor Trial)
+Topic took 17.50 seconds
+D1129E (Vitamin D Deficiency)
+Topic took 10.47 seconds
+D1130F (Borneo Ferry Sinking)
+Topic took 18.98 seconds
+D1131F (Endangered Coral)
+Topic took 15.25 seconds
+D1132F (Endangered Turtles)
+Topic took 18.52 seconds
+D1133F (Glasgow Airport Attack)
+Topic took 9.09 seconds
+D1134F (Hiv Infection Africa)
+Topic took 13.01 seconds
+D1135G (Bernard Madoff)
+Topic took 11.40 seconds
+D1136G (China Water Shortage)
+Topic took 8.03 seconds
+D1137G (Crane Collapse)
+Topic took 16.41 seconds
+D1138G (Organ Donation Problems)
+Topic took 11.01 seconds
+D1139G (Pirate Hijack Tanker)
+Topic took 13.33 seconds
+D1140H (Bangladesh Flood)
+Topic took 9.94 seconds
+D1141H (China Soil Erosion)
+Topic took 9.35 seconds
+D1142H (Jaipur Bombs)
+Topic took 20.47 seconds
+D1143H (Simpson Robbery)
+Topic took 23.34 seconds
+D1144H (Toy Recall)
+Topic took 15.52 seconds
+Selecting content
+loading Transformers
+Completed 1 of 44 total topics
+Completed 2 of 44 total topics
+Completed 3 of 44 total topics
+Completed 4 of 44 total topics
+Completed 5 of 44 total topics
+Completed 6 of 44 total topics
+Completed 7 of 44 total topics
+Completed 8 of 44 total topics
+Completed 9 of 44 total topics
+Completed 10 of 44 total topics
+Completed 11 of 44 total topics
+Completed 12 of 44 total topics
+Completed 13 of 44 total topics
+Completed 14 of 44 total topics
+Completed 15 of 44 total topics
+Completed 16 of 44 total topics
+Completed 17 of 44 total topics
+Completed 18 of 44 total topics
+Completed 19 of 44 total topics
+Completed 20 of 44 total topics
+Completed 21 of 44 total topics
+Completed 22 of 44 total topics
+Completed 23 of 44 total topics
+Completed 24 of 44 total topics
+Completed 25 of 44 total topics
+Completed 26 of 44 total topics
+Completed 27 of 44 total topics
+Completed 28 of 44 total topics
+Completed 29 of 44 total topics
+Completed 30 of 44 total topics
+Completed 31 of 44 total topics
+Completed 32 of 44 total topics
+Completed 33 of 44 total topics
+Completed 34 of 44 total topics
+Completed 35 of 44 total topics
+Completed 36 of 44 total topics
+Completed 37 of 44 total topics
+Completed 38 of 44 total topics
+Completed 39 of 44 total topics
+Completed 40 of 44 total topics
+Completed 41 of 44 total topics
+Completed 42 of 44 total topics
+Completed 43 of 44 total topics
+Completed 44 of 44 total topics
+Ordering content
+Realizing content
+D1101A
+D1102A
+D1103A
+D1104A
+D1105A
+D1106A
+D1107B
+D1108B
+D1109B
+D1110B
+D1111B
+D1112C
+D1113C
+D1114C
+D1115C
+D1116C
+D1117C
+D1118D
+D1119D
+D1120D
+D1121D
+D1122D
+D1123D
+D1124E
+D1125E
+D1126E
+D1127E
+D1128E
+D1129E
+D1130F
+D1131F
+D1132F
+D1133F
+D1134F
+D1135G
+D1136G
+D1137G
+D1138G
+D1139G
+D1140H
+D1141H
+D1142H
+D1143H
+D1144H
+Starting evaluation
+Evaluation done
