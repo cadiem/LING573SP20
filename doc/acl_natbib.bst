@@ -1,4 +1,4 @@
-%%% acl_natbib.bst
+i%%% acl_natbib.bst
 %%% Modification of BibTeX style file acl_natbib_nourl.bst
 %%% ... by urlbst, version 0.7 (marked with "% urlbst")
 %%% See <http://purl.org/nxg/dist/urlbst>
